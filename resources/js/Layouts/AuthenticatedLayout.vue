@@ -40,6 +40,30 @@ const showingNavigationDropdown = ref(false);
                                     Dashboard
                                 </NavLink>
                             </div>
+
+                            <div
+                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
+                            >
+                                <NavLink
+                                    :href="route('transactions')"
+                                    :active="route().current('transactions')"
+                                >
+                                    Transactions
+                                </NavLink>
+                            </div>
+
+                            <div
+                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
+                            >
+                                <NavLink
+                                    :href="route('settings')"
+                                    :active="route().current('settings')"
+                                >
+                                    Settings
+                                </NavLink>
+                            </div>
+
+
                         </div>
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
@@ -146,6 +170,20 @@ const showingNavigationDropdown = ref(false);
                         >
                             Dashboard
                         </ResponsiveNavLink>
+
+                        <ResponsiveNavLink
+                            :href="route('transactions')"
+                            :active="route().current('transactions')"
+                        >
+                            Transactions
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink
+                            :href="route('settings')"
+                            :active="route().current('settings')"
+                        >
+                            Settings
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -184,7 +222,7 @@ const showingNavigationDropdown = ref(false);
                 class="bg-white shadow"
                 v-if="$slots.header"
             >
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-4 lg:px-8">
                     <slot name="header" />
                 </div>
             </header>

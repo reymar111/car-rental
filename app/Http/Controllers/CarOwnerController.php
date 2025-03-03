@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CarOwner;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CarOwnerController extends Controller
 {
@@ -12,7 +13,10 @@ class CarOwnerController extends Controller
      */
     public function index()
     {
-        //
+        $owners = CarOwner::all();
+        return Inertia::render('Settings/CarOwner', [
+            'owners' => $owners
+        ]);
     }
 
     /**
@@ -28,7 +32,7 @@ class CarOwnerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
     }
 
     /**
