@@ -18,52 +18,61 @@ class CarOwnerController extends Controller
             'owners' => $owners
         ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-    }
+        $request->validate([
+            'first_name' => ['required'],
+            'last_name' => ['required'],
+            'contact_number' => ['required'],
+            'address' => ['required'],
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(CarOwner $carOwner)
-    {
-        //
-    }
+        $owner = new CarOwner();
+        $owner->first_name = $request->first_name;
+        $owner->middle_name = $request->middle_name;
+        $owner->last_name = $request->last_name;
+        $owner->ext_name = $request->ext_name;
+        $owner->contact_number = $request->contact_number;
+        $owner->address = $request->address;
+        $owner->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(CarOwner $carOwner)
-    {
-        //
+        return to_route('owner.index');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CarOwner $carOwner)
+    public function update(Request $request, CarOwner $owner)
     {
-        //
+        $request->validate([
+            'first_name' => ['required'],
+            'last_name' => ['required'],
+            'contact_number' => ['required'],
+            'address' => ['required'],
+        ]);
+
+        $owner->first_name = $request->first_name;
+        $owner->middle_name = $request->middle_name;
+        $owner->last_name = $request->last_name;
+        $owner->ext_name = $request->ext_name;
+        $owner->contact_number = $request->contact_number;
+        $owner->address = $request->address;
+        $owner->update();
+
+        return to_route('owner.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CarOwner $carOwner)
+    public function destroy(CarOwner $owner)
     {
-        //
+        $owner->delete();
+
+        return to_route('owner.index');
     }
 }

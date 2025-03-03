@@ -1,23 +1,29 @@
 <script>
-    import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-    import { Head, Link } from '@inertiajs/vue3';
+    import Settings from '@/Pages/Settings.vue';
+    import { Head } from '@inertiajs/vue3';
     import InputError from '@/Components/InputError.vue';
     import { useForm } from '@inertiajs/vue3'
 
 export default {
     components: {
-        AuthenticatedLayout,
+        Settings,
         Head,
         InputError
     },
-    props: ['types'],
-    // Properties returned from data() become reactive state
-    // and will be exposed on `this`.
+    props: ['models', 'colors', 'cars', 'owners'],
     data() {
         return {
             form: useForm({
                 id: null,
-                name: '',
+                owner_id: '',
+                model_id: '',
+                color_id: '',
+                owner_id: '',
+                year: '',
+                plate_number: '',
+                rental_price: '',
+                max_capacity: '',
+                features: '',
             }), 
 
             search: '',
@@ -41,11 +47,11 @@ export default {
     },
 
     computed: {
-        filteredtypes() {
-            if (!this.search) return this.types;
+        filteredCars() {
+            if (!this.search) return this.cars;
 
-            return this.types.filter(type => {
-                return Object.values(type).some(value =>
+            return this.cars.filter(car => {
+                return Object.values(car).some(value =>
                     String(value).toLowerCase().includes(this.search.toLowerCase())
                 );
             });
@@ -54,31 +60,40 @@ export default {
 
     methods: {
         save() {
-            this.form.post('/type/store', {
+            this.form.post('/car/store', {
                 onStart: () => {
                     this.loading_button = true;
                 },
                 onFinish: () => {
                     this.loading_button = false;
-                    this.toast = true
-                    this.is_updated = true
+                    this.toast = false
+                    this.is_created = true
                 },
                 onSuccess: () => {
                     this.modal = false;
+                    this.toast = false
                     this.form.reset();
                 },
             });
         },
 
-        edit(type) {
+        edit(car) {
             this.is_edit = true
-            this.form.id = type.id
-            this.form.name = type.name
+            this.form.id = car.id
+            this.form.owner_id = car.owner_id
+            this.form.model_id = car.model_id
+            this.form.color_id = car.color_id
+            this.form.owner_id = car.owner_id
+            this.form.year = car.year
+            this.form.plate_number = car.plate_number
+            this.form.rental_price = car.rental_price
+            this.form.max_capacity = car.max_capacity
+            this.form.features = car.features
             this.modal = true
         },
 
         update() {
-            this.form.patch(`/type/update/${this.form.id}`, {
+            this.form.patch(`/car/update/${this.form.id}`, {
                 onStart: () => {
                     this.loading_button = true;
                 },
@@ -94,14 +109,14 @@ export default {
             });
         },
 
-        deleteDialog(type) {
-            this.delete_form.id = type.id
-            this.delete_form.name = type.name
+        deleteDialog(car) {
+            this.delete_form.id = car.id
+            this.delete_form.name = car.plate_number
             this.delete_form.active = true
         },
 
         destroy(id) {
-            this.$inertia.delete(`/type/delete/${this.delete_form.id}`, {
+            this.$inertia.delete(`/car/delete/${this.delete_form.id}`, {
                 onStart: () => {
                     this.loading_button = true;
                 },
@@ -118,9 +133,15 @@ export default {
         },
 
         closeModal() {
-            this.form.id =null
-            this.form.name =''
-
+            this.form.id = null
+            this.form.owner_id = ''
+            this.form.model_id = ''
+            this.form.color_id = ''
+            this.form.owner_id = ''
+            this.form.year = ''
+            this.form.plate_number = ''
+            this.form.rental_price = ''
+            this.form.features = ''
             this.search = ''
 
             this.delete_form.id = null
@@ -146,23 +167,9 @@ export default {
 </script>
 
 <template>
-    <Head title="Transactions" />
+    <Head title="Cars" />
 
-    <AuthenticatedLayout>
-        <template #header>
-            <h2
-                class="text-xl font-semibold leading-tight text-gray-800"
-            >
-                Transactions
-            </h2>
-        </template>
-
-        <div class="py-10">
-            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div
-                    class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
-                >
-                    <div class="p-6 text-gray-900">
+    <Settings>
         <div class="pb-4 bg-white dark:bg-gray-900">
             <div class="flex items-center gap-2">
                 <!-- Buttons -->
@@ -176,7 +183,7 @@ export default {
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                         </svg>
                     </div>
-                    <input v-model="search" type="text" id="table-search" class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for car rentals">
+                    <input v-model="search" type="text" id="table-search" class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for Cars">
                 </div>
             </div>
         </div>
@@ -186,7 +193,7 @@ export default {
             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
             </svg>
             <div class="ms-3 text-sm font-medium">
-            Type created successfully
+            Car created successfully
             </div>
             <button @click="is_created = false" type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"  data-dismiss-target="#alert-border-2" aria-label="Close">
             <span class="sr-only">Dismiss</span>
@@ -216,7 +223,7 @@ export default {
             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
             </svg>
             <div class="ms-3 text-sm font-medium">
-            type deleted.
+            Car deleted.
             </div>
             <button @click="is_deleted = false" type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"  data-dismiss-target="#alert-border-2" aria-label="Close">
             <span class="sr-only">Dismiss</span>
@@ -233,16 +240,16 @@ export default {
                         #
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Transation #
+                        Plate #
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Renter
+                        Brand/Model
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Destination
+                        Color
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Status
+                        Owner
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Action
@@ -251,12 +258,23 @@ export default {
             </thead>
             <tbody>
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
-                    v-for="(item, index) in filteredtypes" :key="index">
+                    v-for="(item, index) in filteredCars" :key="index">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ index + 1 }}
                     </th>             
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ item.name }}
+                        {{ item.plate_number }}
+                    </th>
+
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ item.model != null ? item.model.brand.name + ' - ' + item.model.name + ' ' + item.year : '' }}
+                    </th>
+
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ item.color.name}}
+                    </th>
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ item.owner.full_name}}
                     </th>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <a @click="edit(item)" href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> &nbsp;
@@ -275,7 +293,7 @@ export default {
                     <!-- Modal header -->
                     <div class="flex items-center justify-between p-4 border-b dark:border-gray-600">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                          {{ is_edit ? 'Update ' + form.name : 'Create'}} type  
+                          {{ is_edit ? 'Update ' + form.name : 'Create'}} Car  
                         </h3>
                         <button @click="closeModal" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
                                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -287,10 +305,59 @@ export default {
                     <!-- Modal body -->
                     <form class="p-4">
                         <div class="grid gap-2 mb-2">
-                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input v-model="form.name" type="text" class="w-full p-2 border rounded-lg dark:bg-gray-600 dark:border-gray-500 dark:text-white" placeholder="Type name" required>
-                            <InputError class="mt-2" :message="form.errors.name" />
+                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Plate #</label>
+                            <input v-model="form.plate_number" type="text" class="w-full p-2 border rounded-lg dark:bg-gray-600 dark:border-gray-500 dark:text-white" placeholder="Plate Number" required>
+                            <InputError class="mt-2" :message="form.errors.plate_number" />
                         </div>
+
+                        <div class="grid gap-2 mb-2">
+                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Model</label>
+                            <select v-model="form.model_id" id="models" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option v-for="(item, index) in models" :value="item.id">{{ item.brand.name + ' - ' + item.name }}</option>
+                            </select>
+                            <InputError class="mt-2" :message="form.errors.model_id" />
+                        </div>
+
+                        <div class="grid gap-2 mb-2">
+                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Color</label>
+                            <select v-model="form.color_id" id="colors" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option v-for="(item, index) in colors" :value="item.id">{{ item.name }}</option>
+                            </select>
+                            <InputError class="mt-2" :message="form.errors.color_id" />
+                        </div>
+
+                        <div class="grid gap-2 mb-2">
+                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Owner</label>
+                            <select v-model="form.owner_id" id="owners" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option v-for="(item, index) in owners" :value="item.id">{{ item.full_name }}</option>
+                            </select>
+                            <InputError class="mt-2" :message="form.errors.owner_id" />
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 mb-2">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-900 dark:text-white">Year</label>
+                                <input v-model="form.year" type="number" class="w-full p-2 border rounded-lg dark:bg-gray-600 dark:border-gray-500 dark:text-white" placeholder="Year" required>
+                                <InputError class="mt-2" :message="form.errors.year" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-900 dark:text-white">Seating Capacity</label>
+                                <input v-model="form.max_capacity" type="number" class="w-full p-2 border rounded-lg dark:bg-gray-600 dark:border-gray-500 dark:text-white" placeholder="Maximum">
+                                <InputError class="mt-2" :message="form.errors.max_capacity" />
+                            </div>
+                        </div>
+
+                        <div class="grid gap-2 mb-2">
+                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Rental Price</label>
+                            <input v-model="form.rental_price" type="number" class="w-full p-2 border rounded-lg dark:bg-gray-600 dark:border-gray-500 dark:text-white" placeholder="Amount" required>
+                            <InputError class="mt-2" :message="form.errors.rental_price" />
+                        </div>
+
+                        <div class="grid gap-2 mb-2">
+                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Car Features</label>
+                            <textarea v-model="form.features" rows="4" class="w-full p-2 border rounded-lg dark:bg-gray-600 dark:border-gray-500 dark:text-white" placeholder="Features"></textarea>                    
+                        </div>
+
                         <button @click="save" v-if="!loading_button && !is_edit" class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5">
                             SAVE
                         </button>
@@ -347,9 +414,8 @@ export default {
                 </div>
             </div>
         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </AuthenticatedLayout>
+
+
+
+    </Settings>
 </template>

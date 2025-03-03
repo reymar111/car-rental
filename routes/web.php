@@ -2,6 +2,12 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CarOwnerController;
+use App\Http\Controllers\CarsController;
+use App\Http\Controllers\CarBrandController;
+use App\Http\Controllers\CarModelController;
+use App\Http\Controllers\CarColorController;
+use App\Http\Controllers\CarTypeController;
+use App\Http\Controllers\PaymentModeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -15,23 +21,82 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function() {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
 
-Route::get('/settings', function () {
-    return Inertia::render('Settings');
-})->middleware(['auth', 'verified'])->name('settings');
+    Route::get('/transactions', function () {
+        return Inertia::render('Transactions');
+    })->name('transactions');
 
-Route::middleware(['auth', 'verified'])->prefix('owner')->group(function() {
-    Route::get('/', [CarOwnerController::class, 'index'])->name('owner.index');
-    Route::post('/store', [CarOwnerController::class, 'store'])->name('owner.store');
+    Route::get('/reports', function () {
+        return Inertia::render('Reports');
+    })->name('reports');
+
+    Route::get('/rentals', function () {
+        return Inertia::render('MyRentals');
+    })->name('rentals');
+
+    
+    Route::get('/settings', function () {
+        return Inertia::render('Settings');
+    })->name('settings');
+    
+    Route::prefix('owner')->group(function() {
+        Route::get('/', [CarOwnerController::class, 'index'])->name('owner.index');
+        Route::post('/store', [CarOwnerController::class, 'store'])->name('owner.store');
+        Route::patch('/update/{owner}', [CarOwnerController::class, 'update'])->name('owner.update');
+        Route::delete('/delete/{owner}', [CarOwnerController::class, 'destroy'])->name('owner.delete');
+    });
+
+    Route::prefix('car')->group(function() {
+        Route::get('/', [CarsController::class, 'index'])->name('car.index');
+        Route::post('/store', [CarsController::class, 'store'])->name('car.store');
+        Route::patch('/update/{car}', [CarsController::class, 'update'])->name('car.update');
+        Route::delete('/delete/{car}', [CarsController::class, 'destroy'])->name('car.delete');
+    });
+
+    Route::prefix('brand')->group(function() {
+        Route::get('/', [CarBrandController::class, 'index'])->name('brand.index');
+        Route::post('/store', [CarBrandController::class, 'store'])->name('brand.store');
+        Route::patch('/update/{brand}', [CarBrandController::class, 'update'])->name('brand.update');
+        Route::delete('/delete/{brand}', [CarBrandController::class, 'destroy'])->name('brand.delete');
+    });
+
+    Route::prefix('model')->group(function() {
+        Route::get('/', [CarModelController::class, 'index'])->name('model.index');
+        Route::post('/store', [CarModelController::class, 'store'])->name('model.store');
+        Route::patch('/update/{model}', [CarModelController::class, 'update'])->name('model.update');
+        Route::delete('/delete/{model}', [CarModelController::class, 'destroy'])->name('model.delete');
+    });
+
+    Route::prefix('color')->group(function() {
+        Route::get('/', [CarColorController::class, 'index'])->name('color.index');
+        Route::post('/store', [CarColorController::class, 'store'])->name('color.store');
+        Route::patch('/update/{color}', [CarColorController::class, 'update'])->name('color.update');
+        Route::delete('/delete/{color}', [CarColorController::class, 'destroy'])->name('color.delete');
+    });
+
+    Route::prefix('type')->group(function() {
+        Route::get('/', [CarTypeController::class, 'index'])->name('type.index');
+        Route::post('/store', [CarTypeController::class, 'store'])->name('type.store');
+        Route::patch('/update/{type}', [CarTypeController::class, 'update'])->name('type.update');
+        Route::delete('/delete/{type}', [CarTypeController::class, 'destroy'])->name('type.delete');
+    });
+
+    Route::prefix('payment_mode')->group(function() {
+        Route::get('/', [PaymentModeController::class, 'index'])->name('payment_mode.index');
+        Route::post('/store', [PaymentModeController::class, 'store'])->name('payment_mode.store');
+        Route::patch('/update/{p_mode}', [PaymentModeController::class, 'update'])->name('payment_mode.update');
+        Route::delete('/delete/{p_mode}', [PaymentModeController::class, 'destroy'])->name('payment_mode.delete');
+    });
 });
 
 
-Route::get('/transactions', function () {
-    return Inertia::render('Transactions');
-})->middleware(['auth', 'verified'])->name('transactions');
+
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

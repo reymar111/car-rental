@@ -1,12 +1,12 @@
 <script>
-    import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-    import { Head, Link } from '@inertiajs/vue3';
+    import Settings from '@/Pages/Settings.vue';
+    import { Head } from '@inertiajs/vue3';
     import InputError from '@/Components/InputError.vue';
     import { useForm } from '@inertiajs/vue3'
 
 export default {
     components: {
-        AuthenticatedLayout,
+        Settings,
         Head,
         InputError
     },
@@ -146,23 +146,9 @@ export default {
 </script>
 
 <template>
-    <Head title="Transactions" />
+    <Head title="Car - types" />
 
-    <AuthenticatedLayout>
-        <template #header>
-            <h2
-                class="text-xl font-semibold leading-tight text-gray-800"
-            >
-                Transactions
-            </h2>
-        </template>
-
-        <div class="py-10">
-            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div
-                    class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
-                >
-                    <div class="p-6 text-gray-900">
+    <Settings>
         <div class="pb-4 bg-white dark:bg-gray-900">
             <div class="flex items-center gap-2">
                 <!-- Buttons -->
@@ -176,7 +162,7 @@ export default {
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                         </svg>
                     </div>
-                    <input v-model="search" type="text" id="table-search" class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for car rentals">
+                    <input v-model="search" type="text" id="table-search" class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for car types">
                 </div>
             </div>
         </div>
@@ -233,16 +219,7 @@ export default {
                         #
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Transation #
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Renter
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Destination
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Status
+                        Name
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Action
@@ -347,9 +324,8 @@ export default {
                 </div>
             </div>
         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </AuthenticatedLayout>
+
+
+
+    </Settings>
 </template>
