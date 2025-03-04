@@ -18,7 +18,9 @@ export default {
             form: useForm({
                 id: null,
                 name: '',
-            }), 
+                rental_within: '',
+                rental_without: '',
+            }),
 
             search: '',
 
@@ -27,7 +29,7 @@ export default {
                 name: '',
                 active: false,
             }),
-            
+
             is_edit: false,
             toast: false,
             is_created: false,
@@ -74,6 +76,8 @@ export default {
             this.is_edit = true
             this.form.id = type.id
             this.form.name = type.name
+            this.form.rental_within = type.rental_within
+            this.form.rental_without = type.rental_without
             this.modal = true
         },
 
@@ -120,13 +124,15 @@ export default {
         closeModal() {
             this.form.id =null
             this.form.name =''
+            this.form.rental_within =''
+            this.form.rental_without =''
 
             this.search = ''
 
             this.delete_form.id = null
             this.delete_form.name = ''
             this.delete_form.active = false
-            
+
             this.is_edit = false
             this.toast = false
             this.is_created = false
@@ -140,7 +146,7 @@ export default {
     },
 
     mounted() {
-        
+
     }
 }
 </script>
@@ -222,6 +228,12 @@ export default {
                         Name
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Rates w/in
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Rates w/o
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Action
                     </th>
                 </tr>
@@ -231,16 +243,21 @@ export default {
                     v-for="(item, index) in filteredtypes" :key="index">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ index + 1 }}
-                    </th>             
+                    </th>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ item.name }}
+                    </th>
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ item.rental_within }}
+                    </th>
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ item.rental_without }}
                     </th>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <a @click="edit(item)" href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> &nbsp;
                         <a @click=deleteDialog(item) href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
                     </td>
                 </tr>
-             
             </tbody>
         </table>
 
@@ -252,7 +269,7 @@ export default {
                     <!-- Modal header -->
                     <div class="flex items-center justify-between p-4 border-b dark:border-gray-600">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                          {{ is_edit ? 'Update ' + form.name : 'Create'}} type  
+                            {{ is_edit ? 'Update ' + form.name : 'Create'}} type
                         </h3>
                         <button @click="closeModal" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
                                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -268,6 +285,19 @@ export default {
                             <input v-model="form.name" type="text" class="w-full p-2 border rounded-lg dark:bg-gray-600 dark:border-gray-500 dark:text-white" placeholder="Type name" required>
                             <InputError class="mt-2" :message="form.errors.name" />
                         </div>
+
+                        <div class="grid gap-2 mb-2">
+                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Rate/Day (w/in Cagayan)</label>
+                            <input v-model="form.rental_within" type="number" class="w-full p-2 border rounded-lg dark:bg-gray-600 dark:border-gray-500 dark:text-white" placeholder="Type rate" required>
+                            <InputError class="mt-2" :message="form.errors.rental_within" />
+                        </div>
+
+                        <div class="grid gap-2 mb-2">
+                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Rate/Day (w/o Cagayan)</label>
+                            <input v-model="form.rental_without" type="number" class="w-full p-2 border rounded-lg dark:bg-gray-600 dark:border-gray-500 dark:text-white" placeholder="Type rate" required>
+                            <InputError class="mt-2" :message="form.errors.rental_without" />
+                        </div>
+
                         <button @click="save" v-if="!loading_button && !is_edit" class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5">
                             SAVE
                         </button>
@@ -281,8 +311,8 @@ export default {
                                 <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
                                 <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
                             </svg>
-                            {{ is_edit ? 'Updating' : 'Saving...'}} 
-                            
+                            {{ is_edit ? 'Updating' : 'Saving...'}}
+
                         </button>
                     </form>
                 </div>
@@ -318,7 +348,7 @@ export default {
                                 <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
                             </svg>
                             Deleting ...
-                            
+
                         </button>
                     </form>
                 </div>

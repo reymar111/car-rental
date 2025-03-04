@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('year');
             $table->string('color')->nullable();
             $table->string('plate_number');
-            $table->decimal('rental_price', 8, 2)->nullable();
             $table->integer('max_capacity');
             $table->integer('status_id')->nullable();
             $table->text('features')->nullable();

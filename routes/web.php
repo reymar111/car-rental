@@ -8,6 +8,8 @@ use App\Http\Controllers\CarModelController;
 use App\Http\Controllers\CarColorController;
 use App\Http\Controllers\CarTypeController;
 use App\Http\Controllers\PaymentModeController;
+use App\Http\Controllers\RouteCitiesController;
+use App\Http\Controllers\RoutesController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -38,11 +40,11 @@ Route::middleware(['auth', 'verified'])->group(function() {
         return Inertia::render('MyRentals');
     })->name('rentals');
 
-    
+
     Route::get('/settings', function () {
         return Inertia::render('Settings');
     })->name('settings');
-    
+
     Route::prefix('owner')->group(function() {
         Route::get('/', [CarOwnerController::class, 'index'])->name('owner.index');
         Route::post('/store', [CarOwnerController::class, 'store'])->name('owner.store');
@@ -90,6 +92,20 @@ Route::middleware(['auth', 'verified'])->group(function() {
         Route::post('/store', [PaymentModeController::class, 'store'])->name('payment_mode.store');
         Route::patch('/update/{p_mode}', [PaymentModeController::class, 'update'])->name('payment_mode.update');
         Route::delete('/delete/{p_mode}', [PaymentModeController::class, 'destroy'])->name('payment_mode.delete');
+    });
+
+    Route::prefix('route')->group(function() {
+        Route::get('/', [RoutesController::class, 'index'])->name('route.index');
+        Route::post('/store', [RoutesController::class, 'store'])->name('route.store');
+        Route::patch('/update/{route}', [RoutesController::class, 'update'])->name('route.update');
+        Route::delete('/delete/{route}', [RoutesController::class, 'destroy'])->name('route.delete');
+    });
+
+    Route::prefix('route_city')->group(function() {
+        Route::get('/', [RouteCitiesController::class, 'index'])->name('route_city.index');
+        Route::post('/store', [RouteCitiesController::class, 'store'])->name('route_city.store');
+        Route::patch('/update/{route}', [RouteCitiesController::class, 'update'])->name('route_city.update');
+        Route::delete('/delete/{route}', [RouteCitiesController::class, 'destroy'])->name('route_city.delete');
     });
 });
 

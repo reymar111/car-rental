@@ -20,7 +20,7 @@ class CarsController extends Controller
         $models = CarModel::with('brand')->get();
         $colors = CarColor::all();
         $owners = CarOwner::all();
-        
+
         return Inertia::render('Settings/Cars', [
             'cars' => $cars,
             'models' => $models,
@@ -28,7 +28,7 @@ class CarsController extends Controller
             'owners' => $owners
         ]);
     }
-    
+
     /**
      * Store a newly created resource in storage.
      */
@@ -40,7 +40,6 @@ class CarsController extends Controller
             'color_id' => ['required'],
             'year' => ['required'],
             'plate_number' => ['required'],
-            'rental_price' => ['required'],
             'max_capacity' => ['required'],
         ], [
             'owner_id.required' => 'The owner field is required.',
@@ -48,9 +47,8 @@ class CarsController extends Controller
             'color_id.required' => 'The color field is required.',
             'year.required' => 'The year field is required.',
             'plate_number.required' => 'The plate number field is required.',
-            'rental_price.required' => 'The rental price field is required.',
         ]);
-        
+
 
         $car = new Cars();
         $car->owner_id = $request->owner_id;
@@ -58,7 +56,6 @@ class CarsController extends Controller
         $car->year = $request->year;
         $car->color_id = $request->color_id;
         $car->plate_number = $request->plate_number;
-        $car->rental_price = $request->rental_price;
         $car->max_capacity = $request->max_capacity;
         $car->features = $request->features;
         $car->save();
@@ -77,7 +74,6 @@ class CarsController extends Controller
             'color_id' => ['required'],
             'year' => ['required'],
             'plate_number' => ['required'],
-            'rental_price' => ['required'],
             'max_capacity' => ['required'],
         ], [
             'owner_id.required' => 'The owner field is required.',
@@ -85,15 +81,13 @@ class CarsController extends Controller
             'color_id.required' => 'The color field is required.',
             'year.required' => 'The year field is required.',
             'plate_number.required' => 'The plate number field is required.',
-            'rental_price.required' => 'The rental price field is required.',
         ]);
-        
+
         $car->owner_id = $request->owner_id;
         $car->model_id = $request->model_id;
         $car->color_id = $request->color_id;
         $car->year = $request->year;
         $car->plate_number = $request->plate_number;
-        $car->rental_price = $request->rental_price;
         $car->max_capacity = $request->max_capacity;
         $car->features = $request->features;
         $car->update();

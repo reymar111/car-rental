@@ -18,7 +18,7 @@ class CarTypeController extends Controller
             'types' => $types
         ]);
     }
-    
+
     /**
      * Store a newly created resource in storage.
      */
@@ -26,10 +26,14 @@ class CarTypeController extends Controller
     {
         $request->validate([
             'name' => ['required'],
+            'rental_within' => ['required'],
+            'rental_without' => ['required'],
         ]);
 
         $type = new CarType();
         $type->name = $request->name;
+        $type->rental_within = $request->rental_within;
+        $type->rental_without = $request->rental_without;
         $type->save();
 
         return to_route('type.index');
@@ -42,9 +46,13 @@ class CarTypeController extends Controller
     {
         $request->validate([
             'name' => ['required'],
+            'rental_within' => ['required'],
+            'rental_without' => ['required'],
         ]);
 
         $type->name = $request->name;
+        $type->rental_within = $request->rental_within;
+        $type->rental_without = $request->rental_without;
         $type->update();
 
         return to_route('type.index');
