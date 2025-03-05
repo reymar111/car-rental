@@ -18,7 +18,6 @@ export default {
                 owner_id: '',
                 model_id: '',
                 color_id: '',
-                owner_id: '',
                 year: '',
                 plate_number: '',
                 max_capacity: '',
@@ -82,7 +81,6 @@ export default {
             this.form.owner_id = car.owner_id
             this.form.model_id = car.model_id
             this.form.color_id = car.color_id
-            this.form.owner_id = car.owner_id
             this.form.year = car.year
             this.form.plate_number = car.plate_number
             this.form.max_capacity = car.max_capacity

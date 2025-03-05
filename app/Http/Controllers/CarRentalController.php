@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
+use App\Models\Routes;
 use App\Models\CarRental;
 use Illuminate\Http\Request;
 
@@ -13,11 +15,24 @@ class CarRentalController extends Controller
     public function index()
     {
         $rentals = CarRental::all();
-        return Inertia::render('Settings/Brand', [
-            'rentals' => $brands
+        return Inertia::render('Rental/Index', [
+            'rentals' => $rentals
         ]);
     }
-    
+
+    public function create()
+    {
+
+        $provinces = Routes::with(['cities' => function ($query) {
+            $query->orderBy('name'); // Remove 'return' and just call the method
+        }])->orderBy('name')->get();
+
+        return Inertia::render('Rental/Create', [
+            'provinces' => $provinces,
+        ]);
+
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -27,35 +42,35 @@ class CarRentalController extends Controller
             'name' => ['required'],
         ]);
 
-        $brand = new CarBrand();
-        $brand->name = $request->name;
-        $brand->save();
+        $rental = new CarRental();
+        $rental->name = $request->name;
+        $rental->save();
 
-        return to_route('brand.index');
+        return to_route('rental.index');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CarBrand $brand)
+    public function update(Request $request, CarRental $rental)
     {
         $request->validate([
             'name' => ['required'],
         ]);
 
-        $brand->name = $request->name;
-        $brand->update();
+        $rental->name = $request->name;
+        $rental->update();
 
-        return to_route('brand.index');
+        return to_route('rental.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CarBrand $brand)
+    public function destroy(CarRental $rental)
     {
-        $brand->delete();
+        $rental->delete();
 
-        return to_route('brand.index');
+        return to_route('rental.index');
     }
 }

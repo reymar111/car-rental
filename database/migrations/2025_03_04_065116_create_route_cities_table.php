@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('route_id');
             $table->string('name');
-            $table->integer('order');
+            $table->integer('order')->default(0);
             $table->timestamps();
         });
     }

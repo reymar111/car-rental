@@ -1,18 +1,19 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CarOwnerController;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
 use App\Http\Controllers\CarsController;
-use App\Http\Controllers\CarBrandController;
-use App\Http\Controllers\CarModelController;
-use App\Http\Controllers\CarColorController;
+use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\CarTypeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CarBrandController;
+use App\Http\Controllers\CarColorController;
+use App\Http\Controllers\CarModelController;
+use App\Http\Controllers\CarOwnerController;
+use App\Http\Controllers\CarRentalController;
 use App\Http\Controllers\PaymentModeController;
 use App\Http\Controllers\RouteCitiesController;
-use App\Http\Controllers\RoutesController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -35,11 +36,6 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::get('/reports', function () {
         return Inertia::render('Reports');
     })->name('reports');
-
-    Route::get('/rentals', function () {
-        return Inertia::render('MyRentals');
-    })->name('rentals');
-
 
     Route::get('/settings', function () {
         return Inertia::render('Settings');
@@ -107,12 +103,16 @@ Route::middleware(['auth', 'verified'])->group(function() {
         Route::patch('/update/{route}', [RouteCitiesController::class, 'update'])->name('route_city.update');
         Route::delete('/delete/{route}', [RouteCitiesController::class, 'destroy'])->name('route_city.delete');
     });
+
+    Route::prefix('rental')->group(function() {
+        Route::get('/', [CarRentalController::class, 'index'])->name('rental.index');
+        Route::get('/create', [CarRentalController::class, 'create'])->name('rental.create');
+        Route::post('/store', [CarRentalController::class, 'store'])->name('rental.store');
+        // Route::patch('/update/{rental}', [CarRentalController::class, 'update'])->name('rental.update');
+        Route::delete('/delete/{route}', [CarRentalController::class, 'destroy'])->name('rental.delete');
+    });
+
 });
-
-
-
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
