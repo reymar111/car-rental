@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cars;
 use Inertia\Inertia;
 use App\Models\Routes;
+use App\Models\CarType;
+use App\Models\CarColor;
 use App\Models\CarRental;
+use App\Models\PaymentMode;
 use Illuminate\Http\Request;
 
 class CarRentalController extends Controller
@@ -27,9 +31,39 @@ class CarRentalController extends Controller
             $query->orderBy('name'); // Remove 'return' and just call the method
         }])->orderBy('name')->get();
 
+        $types = CarType::all();
+        $car_colors = CarColor::all();
+        $payments = PaymentMode::all();
+
         return Inertia::render('Rental/Create', [
             'provinces' => $provinces,
+            'car_types' => $types,
+            'car_colors' => $car_colors,
+            'payments' => $payments,
         ]);
+
+    }
+
+    public function searchAvailableCar(Request $request)
+    {
+
+        $cars = Cars::with(['model.brand', 'model.type', 'owner', 'color'])
+        ->whereHas('model.type', function($query) use($request) {
+            $query->where('id', $request->car_type_id);
+        })
+        ->when($request->car_color_id, function($query) use($request) {
+            $query->where('color_id', $request->car_color_id);
+        })
+        ->when($request->number_passenger, function($query) use($request) {
+            $query->where('max_capacity', '>=', $request->number_passenger);
+        })
+        ->get();
+
+        return response()->json([
+            'available_cars' => $cars
+        ]);
+
+        // return redirect()->back()->with('available_cars', $cars);
 
     }
 

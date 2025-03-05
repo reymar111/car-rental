@@ -107,6 +107,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::prefix('rental')->group(function() {
         Route::get('/', [CarRentalController::class, 'index'])->name('rental.index');
         Route::get('/create', [CarRentalController::class, 'create'])->name('rental.create');
+        Route::post('/search_available_car', [CarRentalController::class, 'searchAvailableCar'])->name('rental.search');
         Route::post('/store', [CarRentalController::class, 'store'])->name('rental.store');
         // Route::patch('/update/{rental}', [CarRentalController::class, 'update'])->name('rental.update');
         Route::delete('/delete/{route}', [CarRentalController::class, 'destroy'])->name('rental.delete');
