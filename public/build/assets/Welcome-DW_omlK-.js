@@ -1,0 +1,1 @@
+import{_ as c}from"./plugin-vue_export-helper-DlAUqK2U.js";import{D as e,f as a,o as r,a as o,F as s}from"./app-DT-DYXCi.js";/* empty css            */const m={};function _(l,p){const t=e("Head"),n=e("GuestLayout");return r(),a(s,null,[o(t,{title:"Welcome"}),o(n)],64)}const i=c(m,[["render",_]]);export{i as default};
