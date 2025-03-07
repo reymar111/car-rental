@@ -29,6 +29,7 @@ export default defineConfig({
     build: {
         rollupOptions: {
             external: ['/logo.png', '/car.webp'],
+
         },
     },
 });
