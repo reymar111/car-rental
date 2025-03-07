@@ -29,14 +29,15 @@ export default defineConfig({
         },
     },
     build: {
-        outDir: 'public/build', // Ensure the output directory is correct
-        emptyOutDir: true,
-        manifest: true,
+        // outDir: 'public/build', // Ensure the output directory is correct
+        // emptyOutDir: true,
+        // manifest: true,
         rollupOptions: {
             external: ['/logo.png', '/car.webp'],
-            input: {
-                app: 'resources/js/app.js',
-            },
+            // output: {
+            //     assetFileNames: "assets/[name]-[hash][extname]",
+            //     entryFileNames: "assets/[name]-[hash].js",
+            // },
         },
     },
 });
