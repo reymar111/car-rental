@@ -1,1 +1,0 @@
-import o from"/logo.png";import{_ as r}from"./plugin-vue_export-helper-DlAUqK2U.js";import{f as t,o as c}from"./app-CUtRGKBq.js";const e={},s={class:"rounded-full w-75 h-75",src:o,alt:"image description"};function n(i,_){return c(),t("img",s)}const f=r(e,[["render",n]]);export{f as A};
