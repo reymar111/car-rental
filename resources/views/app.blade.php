@@ -12,14 +12,8 @@
 
         <!-- Scripts -->
         @routes
-
-        @if (app()->environment('local'))
-            @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
-        @else
-            <link rel="stylesheet" href="{{ asset('build/assets/app.css') }}">
-            <script src="{{ asset('build/assets/app.js') }}" defer></script>
-        @endif
-
+        {{-- @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"]) --}}
+        @vite(['resources/css/app.css','resources/js/app.js'])
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
