@@ -21,7 +21,9 @@ class CarRentalController extends Controller
         $rentals = CarRental::with([
             'province', 'city', 'car', 'car.model', 'car.model.brand', 'car_type', 'car_color'
         ])
-        ->where('user_id', $request->user()->id)->get();
+        ->where('user_id', $request->user()->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
         return Inertia::render('Rental/Index', [
             'rentals' => $rentals
         ]);
@@ -155,6 +157,7 @@ class CarRentalController extends Controller
             'car_type',
             'car_color',
             'payment',
+            'proof_payment',
         ]);
 
         return Inertia::render('Rental/Show', [

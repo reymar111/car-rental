@@ -202,13 +202,26 @@ export default {
 
 
 <template>
-    <Head title="Update Rent" />
+    <Head title="Edit Rent" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Update Rent {{rent.transaction_number}}
+            <h2 class="text-xl font-semibold leading-tight text-gray-800 flex justify-between items-center">
+                Edit Rent: {{rent.transaction_number}}
+
+                <div class="flex gap-2">
+                    <Link :href="route('rental.show', {'rental' : rent.id})"
+                        class="w-full sm:w-auto bg-green-800 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-green-700 dark:hover:bg-green-600 dark:focus:ring-green-700">
+                        <svg class="w-6 h-6 text-white-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/>
+                        </svg>
+
+                        <div class="text-sm font-semibold">Back</div>
+                    </Link>
+                </div>
             </h2>
+
+
         </template>
 
         <div class="py-10 h-full">

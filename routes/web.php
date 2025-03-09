@@ -13,6 +13,7 @@ use App\Http\Controllers\CarModelController;
 use App\Http\Controllers\CarOwnerController;
 use App\Http\Controllers\CarRentalController;
 use App\Http\Controllers\PaymentModeController;
+use App\Http\Controllers\RentalPaymentController;
 use App\Http\Controllers\RouteCitiesController;
 
 Route::get('/', function () {
@@ -108,6 +109,11 @@ Route::middleware(['auth', 'verified'])->group(function() {
         Route::get('/edit/{rental}', [CarRentalController::class, 'edit'])->name('rental.edit');
         Route::patch('/update/{rental}', [CarRentalController::class, 'update'])->name('rental.update');
         Route::delete('/delete/{route}', [CarRentalController::class, 'destroy'])->name('rental.delete');
+    });
+
+    Route::prefix('payment')->group(function() {
+        Route::get('/create/{rental}', [RentalPaymentController::class, 'create'])->name('payment.create');
+        Route::post('/store', [RentalPaymentController::class, 'store'])->name('payment.store');
     });
 
 });

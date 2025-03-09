@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::create('car_rental_payments', function (Blueprint $table) {
             $table->id();
             $table->integer('car_rental_id');
-            $table->text('reference_number');
+            $table->string('reference_number');
+            $table->text('notes')->nullable();
             $table->text('proof_payment');
+            $table->boolean('is_accepted')->default(false);
+            $table->boolean('is_declined')->default(false);
             $table->timestamps();
         });
     }

@@ -42,7 +42,7 @@ class CarRental extends Model
             case 2:
                 return 'FOR PAYMENT';
             case 3:
-                return 'PAID';
+                return 'PAID, WAITING FOR RELEASE';
             case 4:
                 return 'TAKEN';
             case 5:
@@ -99,6 +99,13 @@ class CarRental extends Model
     {
 
         return $this->belongsTo(PaymentMode::class, 'payment_id', 'id');
+
+    }
+
+    public function proof_payment()
+    {
+
+        return $this->hasOne(RentalPayment::class, 'car_rental_id', 'id');
 
     }
 
