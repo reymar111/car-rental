@@ -12,6 +12,7 @@ use App\Http\Controllers\CarColorController;
 use App\Http\Controllers\CarModelController;
 use App\Http\Controllers\CarOwnerController;
 use App\Http\Controllers\CarRentalController;
+use App\Http\Controllers\CarRentalRatingController;
 use App\Http\Controllers\PaymentModeController;
 use App\Http\Controllers\RentalPaymentController;
 use App\Http\Controllers\RouteCitiesController;
@@ -114,6 +115,10 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::prefix('payment')->group(function() {
         Route::get('/create/{rental}', [RentalPaymentController::class, 'create'])->name('payment.create');
         Route::post('/store', [RentalPaymentController::class, 'store'])->name('payment.store');
+    });
+
+    Route::prefix('rating')->group(function() {
+        Route::post('/store/{rental}', [CarRentalRatingController::class, 'store'])->name('rating.store');
     });
 
 });

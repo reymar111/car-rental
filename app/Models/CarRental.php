@@ -46,7 +46,7 @@ class CarRental extends Model
             case 4:
                 return 'TAKEN';
             case 5:
-                return 'RETURNED';
+                return 'COMPLETED';
             default:
                 return 'UNKNOWN';
         }
@@ -106,6 +106,13 @@ class CarRental extends Model
     {
 
         return $this->hasOne(RentalPayment::class, 'car_rental_id', 'id');
+
+    }
+
+    public function rating()
+    {
+
+        return $this->hasOne(CarRentalRating::class, 'car_rental_id', 'id');
 
     }
 

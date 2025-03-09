@@ -19,7 +19,7 @@ class CarRentalController extends Controller
     public function index(Request $request)
     {
         $rentals = CarRental::with([
-            'province', 'city', 'car', 'car.model', 'car.model.brand', 'car_type', 'car_color'
+            'province', 'city', 'car', 'car.model', 'car.model.brand', 'car_type', 'car_color', 'rating'
         ])
         ->where('user_id', $request->user()->id)
         ->orderBy('created_at', 'desc')
