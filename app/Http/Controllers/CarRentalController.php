@@ -16,9 +16,12 @@ class CarRentalController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $rentals = CarRental::all();
+        $rentals = CarRental::with([
+            'province', 'city', 'car', 'car.model', 'car.model.brand', 'car_type', 'car_color'
+        ])
+        ->where('user_id', $request->user()->id)->get();
         return Inertia::render('Rental/Index', [
             'rentals' => $rentals
         ]);
@@ -48,22 +51,27 @@ class CarRentalController extends Controller
     {
 
         $cars = Cars::with(['model.brand', 'model.type', 'owner', 'color'])
-        ->whereHas('model.type', function($query) use($request) {
-            $query->where('id', $request->car_type_id);
-        })
-        ->when($request->car_color_id, function($query) use($request) {
-            $query->where('color_id', $request->car_color_id);
-        })
-        ->when($request->number_passenger, function($query) use($request) {
-            $query->where('max_capacity', '>=', $request->number_passenger);
-        })
-        ->get();
+                ->whereHas('model.type', function($query) use($request) {
+                    $query->where('id', $request->car_type_id);
+                })
+                ->when($request->car_color_id, function($query) use($request) {
+                    $query->where('color_id', $request->car_color_id);
+                })
+                ->when($request->number_passenger, function($query) use($request) {
+                    $query->where('max_capacity', '>=', $request->number_passenger);
+                })
+                ->when($request->for_edit === true, function($query) {
+                    $query->whereNotIn('status_id', [3, 4]);
+                })
+                ->when($request->for_edit === false, function($query) {
+                    $query->whereNotIn('status_id', [2, 3, 4]);
+                })
+
+                ->get();
 
         return response()->json([
             'available_cars' => $cars
         ]);
-
-        // return redirect()->back()->with('available_cars', $cars);
 
     }
 
@@ -73,14 +81,97 @@ class CarRentalController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required'],
-        ]);
+            'car_id' => ['required'],
+            'route_id' => ['required'],
+            'route_city_id' => ['required'],
+            'number_passenger' => ['required'],
+            'number_days' => ['required'],
+            'total_amount' => ['required'],
+        ],
+        [
+            'car_id.required' => 'Car is required',
+            'route_id.required' => 'Province is required',
+            'route_city_id.required' => 'City is required',
+            'number_passenger.required' => 'Number of Passenger is required',
+            'number_days.required' => 'Number of Day is required',
+            'sum_total.required' => 'Sum Total is required',
+        ]
+        );
+
+        // update car status
+        $car = Cars::find($request->car_id);
+        $car->status_id = 2;
+        $car->update();
 
         $rental = new CarRental();
-        $rental->name = $request->name;
+        $rental->transaction_number = 'TXN-' . strtoupper(uniqid());
+        $rental->user_id = $request->user()->id;
+        $rental->route_id = $request->route_id;
+        $rental->route_city_id = $request->route_city_id;
+        $rental->car_id = $request->car_id;
+        $rental->number_passenger = $request->number_passenger;
+        $rental->number_days = $request->number_days;
+        $rental->car_type_id = $request->car_type_id;
+        $rental->with_driver = $request->with_driver;
+        $rental->car_color_id = $request->car_color_id;
+        $rental->total_amount = $request->total_amount;
+        $rental->payment_id = $request->payment_id;
+        $rental->pickup_date = $request->pickup_date;
+        $rental->return_date = $request->return_date;
+        $rental->status_id = 2;
         $rental->save();
 
-        return to_route('rental.index');
+        /*
+        STATUS
+
+        1 - AVAILABLE
+        2 - FOR PAYMENT
+        3 - PAID
+        4 - TAKEN
+        5 - RETURNED
+        */
+
+    }
+
+    public function show(CarRental $rental)
+    {
+        $provinces = Routes::with(['cities' => function ($query) {
+            $query->orderBy('name'); // Remove 'return' and just call the method
+        }])->orderBy('name')->get();
+
+        $types = CarType::all();
+        $car_colors = CarColor::all();
+        $payments = PaymentMode::all();
+
+        return Inertia::render('Rental/Show', [
+            'provinces' => $provinces,
+            'car_types' => $types,
+            'car_colors' => $car_colors,
+            'payments' => $payments,
+            'rent' => $rental,
+        ]);
+
+    }
+
+    public function edit(CarRental $rental)
+    {
+
+        $provinces = Routes::with(['cities' => function ($query) {
+            $query->orderBy('name'); // Remove 'return' and just call the method
+        }])->orderBy('name')->get();
+
+        $types = CarType::all();
+        $car_colors = CarColor::all();
+        $payments = PaymentMode::all();
+
+        return Inertia::render('Rental/Edit', [
+            'provinces' => $provinces,
+            'car_types' => $types,
+            'car_colors' => $car_colors,
+            'payments' => $payments,
+            'rent' => $rental,
+        ]);
+
     }
 
     /**
@@ -89,13 +180,59 @@ class CarRentalController extends Controller
     public function update(Request $request, CarRental $rental)
     {
         $request->validate([
-            'name' => ['required'],
-        ]);
+            'car_id' => ['required'],
+            'route_id' => ['required'],
+            'route_city_id' => ['required'],
+            'number_passenger' => ['required'],
+            'number_days' => ['required'],
+            'total_amount' => ['required'],
+        ],
+        [
+            'car_id.required' => 'Car is required',
+            'route_id.required' => 'Province is required',
+            'route_city_id.required' => 'City is required',
+            'number_passenger.required' => 'Number of Passenger is required',
+            'number_days.required' => 'Number of Day is required',
+            'sum_total.required' => 'Sum Total is required',
+        ]
+        );
 
-        $rental->name = $request->name;
+        // search and update car
+        if($rental->car_id != $request->car_id) {
+            // set the previous car as available
+            $prev = Cars::find($rental->car_id);
+            $prev->status_id = 1;
+            $prev->update();
+
+            $new_car = Cars::find($request->car_id);
+            $new_car->status_id = 2;
+            $new_car->update();
+        }
+
+        $rental->route_id = $request->route_id;
+        $rental->route_city_id = $request->route_city_id;
+        $rental->car_id = $request->car_id;
+        $rental->number_passenger = $request->number_passenger;
+        $rental->number_days = $request->number_days;
+        $rental->car_type_id = $request->car_type_id;
+        $rental->with_driver = $request->with_driver;
+        $rental->car_color_id = $request->car_color_id;
+        $rental->total_amount = $request->total_amount;
+        $rental->payment_id = $request->payment_id;
+        $rental->pickup_date = $request->pickup_date;
+        $rental->return_date = $request->return_date;
+        $rental->status_id = 2;
         $rental->update();
 
-        return to_route('rental.index');
+        /*
+        STATUS
+
+        1 - AVAILABLE
+        2 - FOR PAYMENT
+        3 - PAID
+        4 - TAKEN
+        5 - RETURNED
+        */
     }
 
     /**

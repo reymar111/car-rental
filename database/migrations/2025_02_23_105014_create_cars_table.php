@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('color_id');
             $table->integer('type_id')->nullable();
             $table->string('year');
-            $table->string('color')->nullable();
             $table->string('plate_number');
             $table->integer('max_capacity');
             $table->integer('status_id')->nullable();

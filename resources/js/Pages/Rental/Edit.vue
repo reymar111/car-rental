@@ -9,7 +9,7 @@ export default {
         Link,
     },
 
-    props: ['provinces', 'car_types', 'car_colors', 'payments'],
+    props: ['rent', 'provinces', 'car_types', 'car_colors', 'payments'],
 
     data() {
         return {
@@ -21,6 +21,7 @@ export default {
                 { id: 4, title: "Finalize", description: "Finalize your rent" },
             ],
             form: useForm({
+                id: '',
                 route_id: '',
                 route_city_id: '',
                 car_id: '',
@@ -33,7 +34,7 @@ export default {
                 payment_id: '',
                 pickup_date: '',
                 return_date: '',
-                for_edit: false,
+                for_edit: true,
             }),
 
             cities: [],
@@ -44,6 +45,9 @@ export default {
             is_success: false,
             is_loading_submission: false,
         };
+    },
+    mounted() {
+        this.mountData()
     },
     computed: {
         getSumTotal() {
@@ -89,6 +93,26 @@ export default {
         }
     },
     methods: {
+        mountData() {
+            if(this.rent != null) {
+                this.form.id = this.rent.id
+                this.form.route_id = this.rent.route_id
+                this.form.route_city_id = this.rent.route_city_id
+                this.form.car_id = this.rent.car_id
+                this.form.number_passenger = this.rent.number_passenger
+                this.form.number_days = this.rent.number_days
+                this.form.car_type_id = this.rent.car_type_id
+                this.form.with_driver = this.rent.with_driver
+                this.form.car_color_id = this.rent.car_color_id
+                this.form.total_amount = this.rent.total_amount
+                this.form.payment_id = this.rent.payment_id
+                this.form.pickup_date = this.rent.pickup_date
+                this.form.return_date = this.rent.return_date
+
+                this.getCities(this.rent.route_id)
+                this.searchAvailableCars(true)
+            }
+        },
         nextStep() {
             if (this.step < 4) this.step++;
         },
@@ -99,6 +123,7 @@ export default {
             alert("Rental process completed! 🚀");
             this.step = 1; // Reset stepper
         },
+
         mountCities(event) {
             const selectedId = event.target.value;
             const selectedItem = this.provinces.find(item => item.id == selectedId);
@@ -107,12 +132,29 @@ export default {
             }
         },
 
-        async searchAvailableCars() {
+        getCities(id) {
+            const SelectedItem = this.provinces.find(item => item.id == id)
+
+            if(SelectedItem) {
+                this.cities = SelectedItem.cities
+            }
+        },
+
+        async searchAvailableCars(is_mount) {
             try {
                 this.is_searching = true;
-                this.form.car_id = ''
+
+                if(is_mount === false) {
+                    this.form.car_id = ''
+                }
                 let response = await axios.post('/rental/search_available_car', this.form); // Replace with your API route
                 this.available_cars = response.data.available_cars;
+
+                // Automatically select the first available car, if any
+                if (this.available_cars.length > 0) {
+                    this.selected_car = this.available_cars.find(item => item.id === this.rent.car_id)
+                }
+
             } catch (error) {
                 console.error("Error fetching available cars:", error);
             }
@@ -126,11 +168,11 @@ export default {
 
         },
 
-        async save() {
+        async update() {
             try {
                 this.is_loading_submission = true
                 this.form.total_amount = this.getSumTotal
-                let response = await axios.post('/rental/store', this.form);
+                let response = await axios.patch('/rental/update/'+this.form.id, this.form);
                 if(response) {
                     this.is_loading_submission = false
                     this.term_condition = false
@@ -147,14 +189,13 @@ export default {
 </script>
 
 
-
 <template>
-    <Head title="Rent a Car" />
+    <Head title="Update Rent" />
 
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Rent a Car
+                Update Rent {{rent.transaction_number}}
             </h2>
         </template>
 
@@ -242,7 +283,7 @@ export default {
                         <label for="floating_email" class="peer-focus:font-medium absolute text-sm text-black-500 dark:text-black-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Car Color</label>
                     </div>
 
-                    <button v-if="!is_searching" @click="searchAvailableCars" class="w-full px-4 py-2 bg-blue-500 text-white rounded">Search</button>
+                    <button v-if="!is_searching" @click="searchAvailableCars(false)" class="w-full px-4 py-2 bg-blue-500 text-white rounded">Search</button>
 
                     <button v-if="is_searching" disabled type="button" class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5">
                         <svg aria-hidden="true" role="status" class="inline w-4 h-4 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -622,8 +663,8 @@ export default {
 
             <!-- Acknowledgment Button (Fixed at Bottom) -->
             <div class="p-4 border-t dark:border-gray-600 bg-white sticky bottom-0 z-10">
-                <button v-if="!is_loading_submission" @click="save" class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5">
-                    I Agree to the Terms & Conditions, Submit
+                <button v-if="!is_loading_submission" @click="update" class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5">
+                    I Agree to the Terms & Conditions, Update
                 </button>
             </div>
             <button v-if="is_loading_submission" disabled type="button" class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5">
@@ -631,7 +672,7 @@ export default {
                 <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
                 <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
             </svg>
-            Submitting ...
+            Updating ...
 
         </button>
         </div>
@@ -642,13 +683,13 @@ export default {
     <div class="relative w-full max-w-md max-h-[60vh] bg-white rounded-lg shadow-lg dark:bg-gray-700 flex flex-col">
         <!-- Modal Header -->
         <div class="p-4 border-b dark:border-gray-600 flex items-center justify-between sticky top-0 bg-white z-10">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Success</h3>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Updated</h3>
         </div>
 
         <!-- Scrollable Content Section -->
         <div class="overflow-y-auto max-h-[40vh] px-4 py-3 space-y-3">
             <p class="text-gray-600 dark:text-gray-300">
-                Your car rental booking has been successfully processed.
+                Your car rental booking has been successfully updated.
             </p>
             <p class="text-gray-600 dark:text-gray-300">
                 If you have any questions, feel free to contact our support team.

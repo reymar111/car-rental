@@ -16,8 +16,8 @@ use App\Http\Controllers\PaymentModeController;
 use App\Http\Controllers\RouteCitiesController;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
-});
+    return Inertia::render('Landing');
+})->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function() {
     Route::get('/dashboard', function () {
@@ -104,7 +104,9 @@ Route::middleware(['auth', 'verified'])->group(function() {
         Route::get('/create', [CarRentalController::class, 'create'])->name('rental.create');
         Route::post('/search_available_car', [CarRentalController::class, 'searchAvailableCar'])->name('rental.search');
         Route::post('/store', [CarRentalController::class, 'store'])->name('rental.store');
-        // Route::patch('/update/{rental}', [CarRentalController::class, 'update'])->name('rental.update');
+        Route::get('/show/{rental}', [CarRentalController::class, 'show'])->name('rental.show');
+        Route::get('/edit/{rental}', [CarRentalController::class, 'edit'])->name('rental.edit');
+        Route::patch('/update/{rental}', [CarRentalController::class, 'update'])->name('rental.update');
         Route::delete('/delete/{route}', [CarRentalController::class, 'destroy'])->name('rental.delete');
     });
 
