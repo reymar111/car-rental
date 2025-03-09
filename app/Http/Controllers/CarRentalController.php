@@ -143,6 +143,20 @@ class CarRentalController extends Controller
         $car_colors = CarColor::all();
         $payments = PaymentMode::all();
 
+        // Ensure $rental is retrieved before loading relations
+        $rental->load([
+            'province',
+            'city',
+            'car',
+            'car.owner',
+            'car.model',
+            'car.model.brand',
+            'car.model.type',
+            'car_type',
+            'car_color',
+            'payment',
+        ]);
+
         return Inertia::render('Rental/Show', [
             'provinces' => $provinces,
             'car_types' => $types,

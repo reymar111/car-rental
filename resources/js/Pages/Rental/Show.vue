@@ -16,6 +16,23 @@ export default {
             search: '',
         };
     },
+    computed: {
+        getProvince() {
+            return this.provinces.find(route => route.id === this.rent.route_id) || null;
+        },
+
+        getSumNumberDays() {
+            if(this.rent.car != null) {
+                let amount = this.getProvince.is_within
+                    ? this.rent.car.model.type.rental_within
+                    : this.rent.car.model.type.rental_without;
+
+                let number_days = this.rent.number_days;
+
+                return amount * number_days;
+            }
+        },
+    }
 };
 </script>
 
@@ -48,6 +65,192 @@ export default {
             </h2>
 
         </template>
+
+        <div class="py-10 h-full">
+    <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 h-full">
+        <div class="overflow-hidden bg-gray shadow-sm sm:rounded-lg h-full flex flex-col md:flex-row">
+            <!-- Column 1 -->
+            <div class="w-full md:w-1/2 p-4 border-b md:border-b-0 md:border-r border-gray-300">
+                <div class="relative z-0 w-full mb-5 group">
+                    <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-white-800 dark:border-gray-700">
+                        <div class="flex items-center justify-between mb-4">
+                            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-black">Car Info</h5>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <tbody>
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <th scope="row" class="px-6 py-4 ">
+                                            Rent Status
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ rent.status }}
+                                        </td>
+                                    </tr>
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <th scope="row" class="px-6 py-4 ">
+                                            Destination
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                           {{ rent.city != null ? rent.city.name+', ' : '' }} {{ rent.province != null ? rent.province.name : '' }}
+                                        </td>
+                                    </tr>
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <th scope="row" class="px-6 py-4 ">
+                                            Car Details
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ rent != null ? '🚘 '+ rent.car.model.brand.name+ ' - '+ rent.car.model.name + ' ' + rent.car.year : ''}}<br>
+                                            {{ rent != null ? 'Plate #: '+rent.car.plate_number : '' }} <br>
+                                            {{ rent != null ? 'Owner: '+rent.car.owner.full_name : '' }}
+                                        </td>
+                                    </tr>
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <th scope="row" class="px-6 py-4 ">
+                                            With Driver
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                           {{ rent.with_driver ? 'Yes' : 'No' }}
+                                        </td>
+                                    </tr>
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <th scope="row" class="px-6 py-4 ">
+                                            Number of Passengers
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                           {{ rent.number_passenger }}
+                                        </td>
+                                    </tr>
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <th scope="row" class="px-6 py-4 ">
+                                            Rent Days
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                           {{ rent.number_days }}
+                                        </td>
+                                    </tr>
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <th scope="row" class="px-6 py-4 ">
+                                            Pickup Date
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                           {{ rent.pickup_date }}
+                                        </td>
+                                    </tr>
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <th scope="row" class="px-6 py-4 ">
+                                            Return Date
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                           {{ rent.return_date }}
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2 (Grid with 2 Full Rows) -->
+            <div class="w-full md:w-1/2 p-4 grid grid-rows-2 gap-4 h-full">
+                <div class="bg-white border p-0 border-gray-200 shadow-sm sm:p-8 dark:bg-white-800 dark:border-gray-700 rounded-lg flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-4">
+                        <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-black">Billing Info</h5>
+                    </div>
+
+                    <div class="relative overflow-x-auto">
+                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <tbody>
+                                    <tr class="bg-white border-b dark:bg-gray-800 border-gray-200">
+                                        <th scope="row" colspan="2" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ rent.car != null ? '🚘 '+ rent.car.model.brand.name+ ' - '+ rent.car.model.name + ' ' + rent.car.year : ''}}
+                                        </th>
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            <span v-if="rent">
+                                            ₱{{ getProvince.is_within ? rent.car.model.type.rental_within : rent.car.model.type.rental_without }}/day
+                                        </span>
+                                        <span v-else>
+                                            N/A
+                                        </span>
+                                        </th>
+                                        <th  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+
+                                        </th>
+
+                                    </tr>
+                                    <tr class="bg-white border-b dark:bg-gray-800 border-gray-200">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Number of Days
+                                        </th>
+                                        <th class="px-6 py-4">
+
+                                        </th>
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ rent.number_days }}
+                                        </th>
+                                        <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-right">
+                                            ₱ {{ getSumNumberDays}}
+                                        </th>
+                                    </tr>
+                                    <tr class="bg-white dark:bg-gray-800">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            With Driver
+                                        </th>
+                                        <th class="px-6 py-4">
+
+                                        </th>
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ rent.with_driver ? 'Yes (₱1000/day)' : 'No' }}
+                                        </th>
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-right">
+                                            {{ rent.with_driver ? '₱ '+rent.number_days * 1000 : '' }}
+                                        </th>
+                                    </tr>
+                                    <tr class="bg-white dark:bg-gray-800">
+                                        <th scope="row" colspan="3" class="text-right px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Sum Total
+                                        </th>
+                                        <th scope="row" colspan="3" class="text-right px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-right">
+                                            ₱ {{ rent.total_amount }}
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+
+                <div class="bg-white border p-0 border-gray-200 shadow-sm sm:p-8 dark:bg-white-800 dark:border-gray-700 rounded-lg flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-4">
+                        <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-black">Payment Info</h5>
+                    </div>
+
+                    <div class="relative overflow-x-auto">
+                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <tbody>
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <th scope="row" class="px-6 py-4 ">
+                                            Mode of Payment
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ rent.payment != null ? rent.payment.name : ''}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
     </AuthenticatedLayout>
 </template>

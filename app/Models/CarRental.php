@@ -21,6 +21,38 @@ class CarRental extends Model
         'with_driver' => 'boolean'
     ];
 
+    protected $appends = ['status'];
+
+
+    public function getStatusAttribute()
+    {
+        /*
+        STATUS
+
+        1 - AVAILABLE
+        2 - FOR PAYMENT
+        3 - PAID
+        4 - TAKEN
+        5 - RETURNED
+        */
+
+        switch ($this->status_id) {
+            case 1:
+                return 'AVAILABLE';
+            case 2:
+                return 'FOR PAYMENT';
+            case 3:
+                return 'PAID';
+            case 4:
+                return 'TAKEN';
+            case 5:
+                return 'RETURNED';
+            default:
+                return 'UNKNOWN';
+        }
+    }
+
+
     public function user()
     {
 

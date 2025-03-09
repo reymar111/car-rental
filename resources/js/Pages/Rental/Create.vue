@@ -46,6 +46,18 @@ export default {
         };
     },
     computed: {
+        getSumNumberDays() {
+            if(this.selected_car != null) {
+                let amount = this.getProvince.is_within
+                    ? this.selected_car.model.type.rental_within
+                    : this.selected_car.model.type.rental_without;
+
+                let number_days = this.form.number_days;
+
+                return amount * number_days;
+            }
+        },
+
         getSumTotal() {
             if (this.selected_car != null) {
                 let number_of_days = this.form.number_days;
@@ -338,7 +350,7 @@ export default {
                                             {{ form.number_days }}
                                         </th>
                                         <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-right">
-                                            ₱ {{ selected_car != null ? selected_car.model.type.rental_within * form.number_days : '' }}
+                                            ₱ {{getSumNumberDays}}
                                         </th>
                                     </tr>
                                     <tr class="bg-white dark:bg-gray-800">
