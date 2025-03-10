@@ -16,6 +16,7 @@ use App\Http\Controllers\CarRentalRatingController;
 use App\Http\Controllers\PaymentModeController;
 use App\Http\Controllers\RentalPaymentController;
 use App\Http\Controllers\RouteCitiesController;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', function () {
     return Inertia::render('Landing');
@@ -26,9 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::get('/transactions', function () {
-        return Inertia::render('Transactions');
-    })->name('transactions');
+
 
     Route::get('/reports', function () {
         return Inertia::render('Reports');
@@ -37,6 +36,11 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::get('/settings', function () {
         return Inertia::render('Settings');
     })->name('settings');
+
+    Route::prefix('transaction')->group(function () {
+        Route::get('/', [TransactionController::class, 'index'])->name('transactions')->middleware('is_admin');
+        Route::post('/release/{rental}', [TransactionController::class, 'release'])->name('transactions.release')->middleware('is_admin');
+    });
 
     Route::prefix('owner')->group(function() {
         Route::get('/', [CarOwnerController::class, 'index'])->name('owner.index');

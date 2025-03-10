@@ -115,12 +115,11 @@ export default {
                     <button @click="save" v-if="!is_submitting"
                         class="w-full sm:w-auto px-4 py-2.5 inline-flex items-center justify-center text-white rounded-lg
                             bg-blue-800 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300
-                            dark:bg-blue-700 dark:hover:bg-blue-600 dark:focus:ring-blue-700
                             transition-opacity duration-300"
                         :class="{'opacity-50 cursor-not-allowed pointer-events-none bg-gray-500 text-gray-300': !isValidPayment}"
                         :disabled="!isValidPayment"
                     >
-                        <svg class="w-6 h-6 text-white-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-white-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M6 14h2m3 0h5M3 7v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1Z"/>
                         </svg>
 
@@ -129,7 +128,7 @@ export default {
 
                     <button @click="goBack" v-if="!is_submitting"
                         class="w-full sm:w-auto bg-green-800 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-green-700 dark:hover:bg-green-600 dark:focus:ring-green-700">
-                        <svg class="w-6 h-6 text-white-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-white-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/>
                         </svg>
                         <div class="text-sm font-semibold">Back</div>
@@ -153,14 +152,14 @@ export default {
                 <div class="overflow-hidden bg-gray shadow-sm sm:rounded-lg h-full flex flex-col md:flex-row">
                     <div class="w-full md:w-1/2 bg-white p-6">
                         <div class="grid gap-2 mb-2">
-                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Reference Number</label>
-                            <input v-model="form.reference_number" type="text" class="w-full p-2 border rounded-lg dark:bg-gray-600 dark:border-gray-500 dark:text-white" placeholder="" required>
+                            <label class="block text-sm font-medium text-gray-900 ">Reference Number</label>
+                            <input v-model="form.reference_number" type="text" class="w-full p-2 border rounded-lg dark:bg-gray-600 dark:border-gray-500 " placeholder="" required>
                             <InputError class="mt-2" :message="form.reference_number.name" />
                         </div>
 
                         <div class="grid gap-2 mb-2">
-                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Notes</label>
-                            <textarea v-model="form.notes" rows="3" class="w-full p-2 border rounded-lg dark:bg-gray-600 dark:border-gray-500 dark:text-white" placeholder="" required></textarea>
+                            <label class="block text-sm font-medium text-gray-900 ">Notes</label>
+                            <textarea v-model="form.notes" rows="3" class="w-full p-2 border rounded-lg dark:bg-gray-600 dark:border-gray-500 " placeholder="" required></textarea>
                             <InputError class="mt-2" :message="form.notes.name" />
                         </div>
 
@@ -170,7 +169,7 @@ export default {
                     <div class="w-full md:w-1/2 bg-white p-6">
                         <div class="flex flex-col items-center justify-center w-full">
                             <div class="grid gap-2 mb-2">
-                                <label class="block text-sm font-medium text-gray-900 dark:text-white">Proof of Payment</label>
+                                <label class="block text-sm font-medium text-gray-900 ">Proof of Payment</label>
                             </div>
 
                             <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
@@ -211,15 +210,15 @@ export default {
             <div class="relative w-full max-w-md max-h-[60vh] bg-white rounded-lg shadow-lg dark:bg-gray-700 flex flex-col">
                 <!-- Modal Header -->
                 <div class="p-4 border-b dark:border-gray-600 flex items-center justify-between sticky top-0 bg-white z-10">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Success</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 ">Success</h3>
                 </div>
 
                 <!-- Scrollable Content Section -->
-                <div class="overflow-y-auto max-h-[40vh] px-4 py-3 space-y-3">
-                    <p class="text-gray-600 dark:text-gray-300">
+                <div class="overflow-y-auto max-h-[40vh] px-4 py-3 space-y-3 bg-white">
+                    <p class="text-gray-600">
                         Your payment is successfully submitted
                     </p>
-                    <p class="text-gray-600 dark:text-gray-300">
+                    <p class="text-gray-600">
                         If you have any questions, feel free to contact our support team.
                     </p>
                 </div>

@@ -316,11 +316,11 @@ export default {
                         <div class="relative z-0 w-full mb-5 group">
 
                             <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6 dark:bg-white-800">
-                                <h5 class="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-black">
+                                <h5 class="mb-3 text-base font-semibold text-gray-900 md:text-xl">
                                 Billing Information
                                 </h5>
                                 <div class="relative overflow-x-auto">
-                                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
                                         <tbody>
                                             <tr class="bg-white border-b dark:bg-gray-800 border-gray-200">
                                                 <th scope="row" colspan="2" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -572,7 +572,7 @@ export default {
             <div class="relative w-full max-w-4xl max-h-[90vh] bg-white rounded-lg shadow-lg dark:bg-gray-700 flex flex-col">
                 <!-- Modal Header -->
                 <div class="p-4 border-b dark:border-gray-600 flex items-center justify-between sticky top-0 bg-white z-10">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Terms and Conditions</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">Terms and Conditions</h3>
                     <button @click="term_condition = false" type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -583,7 +583,7 @@ export default {
                 </div>
 
                 <!-- Scrollable Terms Section -->
-                <div class="overflow-y-auto max-h-[70vh] p-6 space-y-6">
+                <div class="overflow-y-auto max-h-[70vh] p-6 space-y-6 bg-white">
                     <div>
                         <h2 class="text-lg font-semibold text-gray-800 flex items-center"><i class="fa-solid fa-credit-card text-blue-600 mr-2"></i> 1. Payment Process</h2>
                         <p class="text-gray-600 mt-1"><span class="font-semibold">1.1.</span> Payments for car rental services can be made via GCash QR code through our secure online payment system.</p>
@@ -654,15 +654,15 @@ export default {
             <div class="relative w-full max-w-md max-h-[60vh] bg-white rounded-lg shadow-lg dark:bg-gray-700 flex flex-col">
                 <!-- Modal Header -->
                 <div class="p-4 border-b dark:border-gray-600 flex items-center justify-between sticky top-0 bg-white z-10">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Success</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 ">Success</h3>
                 </div>
 
                 <!-- Scrollable Content Section -->
-                <div class="overflow-y-auto max-h-[40vh] px-4 py-3 space-y-3">
-                    <p class="text-gray-600 dark:text-gray-300">
+                <div class="overflow-y-auto max-h-[40vh] px-4 py-3 space-y-3 bg-white">
+                    <p class="text-gray-600 ">
                         Your car rental booking has been successfully processed.
                     </p>
-                    <p class="text-gray-600 dark:text-gray-300">
+                    <p class="text-gray-600 ">
                         If you have any questions, feel free to contact our support team.
                     </p>
                 </div>

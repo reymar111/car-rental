@@ -33,6 +33,11 @@ class RentalPaymentController extends Controller
 
         // Find the rental record
         $rental = CarRental::findOrFail($request->car_rental_id);
+
+        if($request->user()->is_admin != 1 && $rental->user_id != $request->user()->id) {
+            return redirect()->back();
+        }
+
         $rental->status_id = 3;
         $rental->update();
 

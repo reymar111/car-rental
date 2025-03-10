@@ -2,7 +2,7 @@
 </script>
 
 <template>
-    <Head title="Welcome" />
+    <!-- <Head title="Welcome" /> -->
 
 <GuestLayout>
 

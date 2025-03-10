@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('year');
             $table->string('plate_number');
             $table->integer('max_capacity');
-            $table->integer('status_id')->nullable();
+            $table->boolean('is_available')->default(true);
             $table->text('features')->nullable();
             $table->timestamps();
         });

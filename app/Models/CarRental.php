@@ -7,16 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class CarRental extends Model
 {
-    /*
-    STATUS
-
-    1 - AVAILABLE
-    2 - FOR PAYMENT
-    3 - PAID
-    4 - TAKEN
-    5 - RETURNED
-    */
-
     protected $casts = [
         'with_driver' => 'boolean'
     ];
@@ -31,9 +21,9 @@ class CarRental extends Model
 
         1 - AVAILABLE
         2 - FOR PAYMENT
-        3 - PAID
-        4 - TAKEN
-        5 - RETURNED
+        3 - PAID, WAITING FOR RELEASE
+        4 - RELEASED
+        5 - COMPLETED
         */
 
         switch ($this->status_id) {
@@ -44,7 +34,7 @@ class CarRental extends Model
             case 3:
                 return 'PAID, WAITING FOR RELEASE';
             case 4:
-                return 'TAKEN';
+                return 'RELEASED';
             case 5:
                 return 'COMPLETED';
             default:
@@ -113,6 +103,13 @@ class CarRental extends Model
     {
 
         return $this->hasOne(CarRentalRating::class, 'car_rental_id', 'id');
+
+    }
+
+    public function renter()
+    {
+
+        return $this->belongsTo(User::class, 'user_id', 'id');
 
     }
 

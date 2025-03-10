@@ -40,7 +40,7 @@ class FakerSeeder extends Seeder
                 'year' => $faker->year(),
                 'plate_number' => strtoupper($faker->bothify('??? ####')), // Example: ABC 1234
                 'max_capacity' => $faker->numberBetween(1, 7),
-                'status_id' => 1,
+                'is_available' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

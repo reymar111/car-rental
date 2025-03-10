@@ -37,12 +37,12 @@ const submit = () => {
             {{ status }}
         </div>
 
-        <section class="bg-white-50 dark:bg-gray-900 mt-2">
+        <section class="bg-white-50 mt-2">
         <div class="flex flex-col items-center justify-center px-2 py-2 mx-auto md:h-screen lg:py-0">
             <img class="rounded-full w-50 h-35" src="/logo.png" alt="image description">
-            <div class="w-full bg-gray-50 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-900">
+            <div class="w-full bg-gray-50 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0">
                 <div class="p-1 space-y-1 md:space-y-6 sm:p-8">
-                    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                    <h1 class="text-xl font-bold leading-tight tracking-tight">
                         Sign in to your account
                     </h1>
 

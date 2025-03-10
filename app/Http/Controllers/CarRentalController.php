@@ -63,12 +63,11 @@ class CarRentalController extends Controller
                     $query->where('max_capacity', '>=', $request->number_passenger);
                 })
                 ->when($request->for_edit === true, function($query) {
-                    $query->whereNotIn('status_id', [3, 4]);
+                    $query->whereIn('is_available', [1, 0]);
                 })
                 ->when($request->for_edit === false, function($query) {
-                    $query->whereNotIn('status_id', [2, 3, 4]);
+                    $query->where('is_available', 1);
                 })
-
                 ->get();
 
         return response()->json([
@@ -102,7 +101,7 @@ class CarRentalController extends Controller
 
         // update car status
         $car = Cars::find($request->car_id);
-        $car->status_id = 2;
+        $car->is_available = false;
         $car->update();
 
         $rental = new CarRental();
@@ -135,8 +134,13 @@ class CarRentalController extends Controller
 
     }
 
-    public function show(CarRental $rental)
+    public function show(CarRental $rental, Request $request)
     {
+        if($request->user()->is_admin != 1 && $rental->user_id != $request->user()->id) {
+            return redirect()->back();
+        }
+
+
         $provinces = Routes::with(['cities' => function ($query) {
             $query->orderBy('name'); // Remove 'return' and just call the method
         }])->orderBy('name')->get();
@@ -170,8 +174,13 @@ class CarRentalController extends Controller
 
     }
 
-    public function edit(CarRental $rental)
+    public function edit(CarRental $rental, Request $request)
     {
+
+        if(($request->user()->is_admin != 1 && $rental->user_id != $request->user()->id) || $rental->status_id != 2) {
+            return redirect()->back();
+        }
+
 
         $provinces = Routes::with(['cities' => function ($query) {
             $query->orderBy('name'); // Remove 'return' and just call the method
@@ -196,6 +205,12 @@ class CarRentalController extends Controller
      */
     public function update(Request $request, CarRental $rental)
     {
+        if($request->user()->is_admin != 1 && $rental->user_id != $request->user()->id) {
+            return redirect()->back();
+        }
+
+
+
         $request->validate([
             'car_id' => ['required'],
             'route_id' => ['required'],
@@ -218,11 +233,11 @@ class CarRentalController extends Controller
         if($rental->car_id != $request->car_id) {
             // set the previous car as available
             $prev = Cars::find($rental->car_id);
-            $prev->status_id = 1;
+            $prev->is_available = 1;
             $prev->update();
 
             $new_car = Cars::find($request->car_id);
-            $new_car->status_id = 2;
+            $new_car->is_available = 0;
             $new_car->update();
         }
 
@@ -255,8 +270,13 @@ class CarRentalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CarRental $rental)
+    public function destroy(CarRental $rental, Request $request)
     {
+        if($request->user()->is_admin != 1 && $rental->user_id != $request->user()->id) {
+            return redirect()->back();
+        }
+
+
         $rental->delete();
 
         return to_route('rental.index');

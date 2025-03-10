@@ -95,10 +95,10 @@ export default {
 
 
                         <div v-for="(item, index) in rentals" :key="index"
-                                    class="w-full p-4 mb-3 text-left bg-white border border-gray-200 rounded-lg shadow-xl sm:p-8 dark:bg-gray-800 dark:border-gray-700
+                                    class="w-full p-4 mb-3 text-left bg-white border border-gray-200 rounded-lg shadow-xl sm:p-8
                                     transition duration-100 ease-in-out transform hover:shadow-1xl hover:scale-104 hover:border-blue-500">
 
-                                    <h5 class="mb-2 text-3xl font-bold text-gray-900 dark:text-white flex justify-between items-center">
+                                    <h5 class="mb-2 text-3xl font-bold text-gray-900  flex justify-between items-center">
                                         <span>
                                             {{ item.city != null ? item.city.name+ ',' : ''}} {{ item.province != null ? item.province.name : '' }}
                                         </span>
@@ -108,16 +108,16 @@ export default {
 
 
 
-                            <p class="mb-1 text-base text-gray-500 sm:text-lg dark:text-gray-400">🛒 {{ item.transaction_number }}</p>
-                            <p class="mb-1 text-base text-gray-500 sm:text-lg dark:text-gray-400">🚗 {{ item.car.model.brand.name }} {{ item.car.model.name }} {{ item.car.year }}</p>
+                            <p class="mb-1 text-base text-gray-500 sm:text-lg">🛒 {{ item.transaction_number }}</p>
+                            <p class="mb-1 text-base text-gray-500 sm:text-lg">🚗 {{ item.car.model.brand.name }} {{ item.car.model.name }} {{ item.car.year }}</p>
 
 
 
                             <div class="flex items-center justify-start space-x-4">
                                 <!-- View Button -->
                                 <Link :href="route('rental.show', {'rental' : item.id})" class="
-                                        w-full sm:w-auto bg-blue-800 hover:bg-blue-700 inline-flex items-center justify-center dark:bg-blue-700 dark:hover:bg-blue-600
-                                        text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800
+                                        w-full sm:w-auto bg-blue-800 hover:bg-blue-700 inline-flex items-center justify-center
+                                        text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300
                                         font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                     <svg class="w-6 h-6 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
@@ -128,8 +128,8 @@ export default {
 
                                 <!-- Pay Button -->
                                 <Link v-if="item.status_id === 2" :href="route('payment.create', {'rental' : item.id})" class="
-                                        w-full sm:w-auto bg-blue-800 hover:bg-blue-700 inline-flex items-center justify-center dark:bg-blue-700 dark:hover:bg-blue-600
-                                        text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800
+                                        w-full sm:w-auto bg-blue-800 hover:bg-blue-700 inline-flex items-center justify-center
+                                        text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300
                                         font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                     <svg class="w-6 h-6 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M6 14h2m3 0h5M3 7v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1Z"/>
@@ -148,8 +148,8 @@ export default {
                                 </Link> -->
 
                                 <button v-if="item.status_id === 5 && item.rating === null" @click="openRating(item.id)" class="
-                                        w-full sm:w-auto bg-blue-800 hover:bg-blue-700 inline-flex items-center justify-center dark:bg-blue-700 dark:hover:bg-blue-600
-                                        text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800
+                                        w-full sm:w-auto bg-blue-800 hover:bg-blue-700 inline-flex items-center justify-center
+                                        text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300
                                         font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                         <svg class="me-3 w-7 h-7" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15v4m6-6v6m6-4v4m6-6v6M3 11l6-5 6 5 5.5-5.5"/>
@@ -182,10 +182,10 @@ export default {
         <div v-if="rating.active" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
             <div class="relative p-4 w-full max-w-md">
                 <!-- Modal content -->
-                <div class="relative bg-white rounded-lg shadow-lg dark:bg-gray-700">
+                <div class="relative bg-white rounded-lg shadow-lg ">
                     <!-- Modal header -->
-                    <div class="flex items-center justify-between p-4 border-b dark:border-gray-600">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                    <div class="flex items-center justify-between p-4 border-b ">
+                        <h3 class="text-lg font-semibold text-gray-900">
                           Your rating is valuable to us!
                         </h3>
                         <button @click="closeRating" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
@@ -210,8 +210,8 @@ export default {
                         </div>
 
                         <div class="grid gap-2">
-                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Notes</label>
-                            <textarea v-model="rating.notes" rows="3" class="w-full p-2 border rounded-lg dark:bg-gray-600 dark:border-gray-500 dark:text-white" placeholder="" required></textarea>
+                            <label class="block text-sm font-medium text-gray-900">Notes</label>
+                            <textarea v-model="rating.notes" rows="3" class="w-full p-2 border rounded-lg text-black border-gray-500" placeholder="" required></textarea>
                             <InputError class="mt-2" :message="rating.notes.name" />
                         </div>
 
@@ -238,12 +238,12 @@ export default {
             <div class="relative w-full max-w-md max-h-[60vh] bg-white rounded-lg shadow-lg dark:bg-gray-700 flex flex-col">
                 <!-- Modal Header -->
                 <div class="p-4 border-b dark:border-gray-600 flex items-center justify-between sticky top-0 bg-white z-10">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Success</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">Success</h3>
                 </div>
 
                 <!-- Scrollable Content Section -->
-                <div class="overflow-y-auto max-h-[40vh] px-4 py-3 space-y-3">
-                    <p class="text-gray-600 dark:text-gray-300">
+                <div class="overflow-y-auto max-h-[40vh] px-4 py-3 space-y-3 bg-white">
+                    <p class="text-gray-600">
                         Thank your for your feedback. It means a lot to us!
                     </p>
                 </div>
