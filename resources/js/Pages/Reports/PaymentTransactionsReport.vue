@@ -26,7 +26,7 @@ export default {
     methods: {
         async filter() {
             try {
-                let response = await axios.post('/reports/revenues-report', this.form); // Replace with your API route
+                let response = await axios.post('/reports/payment-transactions-report', this.form); // Replace with your API route
                 this.data = response.data.result;
 
             } catch (error) {
@@ -42,7 +42,7 @@ export default {
 </script>
 
 <template>
-    <Head title="Revenues Report" />
+    <Head title="Payment Transactions Report" />
 
     <Reports>
         <div class="p-4 bg-white dark:bg-gray-900">
@@ -91,9 +91,6 @@ export default {
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-2 py-3">
-                        #
-                    </th>
-                    <th scope="col" class="px-2 py-3">
                         Transaction #
                     </th>
                     <th scope="col" class="px-2 py-3">
@@ -103,10 +100,10 @@ export default {
                         Car
                     </th>
                     <th scope="col" class="px-2 py-3">
-                        Status
+                        Payment Mode
                     </th>
                     <th scope="col" class="px-2 py-3">
-                        Total
+                        Rent Status
                     </th>
 
                 </tr>
@@ -114,9 +111,6 @@ export default {
             <tbody>
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
                     v-for="(item, index) in data" :key="index">
-                    <td scope="row" class="px-2 font-medium text-gray-900 whitespace-nowrap">
-                        {{ index+1 }}
-                    </td>
                     <td scope="row" class="px-2 font-medium text-gray-900 whitespace-nowrap">
                         {{ item.transaction_number }}
                     </td>
@@ -127,10 +121,10 @@ export default {
                         {{ item != null ? item.car.model.brand.name+ ' - '+ item.car.model.name + ' ' + item.car.year : ''}}
                     </td>
                     <td scope="row" class="px-2 font-medium text-gray-900 whitespace-nowrap">
-                        {{ item.status }}
+                        {{ item.payment != null ? item.payment.name : '' }}
                     </td>
                     <td scope="row" class="px-2 font-medium text-gray-900 whitespace-nowrap">
-                        ₱ {{ item.total_amount }}
+                        {{ item.status }}
                     </td>
 
                 </tr>

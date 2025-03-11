@@ -131,6 +131,25 @@ Route::middleware(['auth', 'verified'])->group(function() {
         })->name('report.revenue');
 
         Route::post('/revenues-report', [ReportController::class, 'RevenueReport'])->name('revenue');
+
+
+        Route::get('/booking-report', function() {
+            return Inertia::render('Reports/BookingReport');
+        })->name('report.booking');
+
+        Route::post('/booking-report', [ReportController::class, 'BookingReport'])->name('booking');
+
+        Route::get('/payment-transactions-report', function() {
+            return Inertia::render('Reports/PaymentTransactionsReport');
+        })->name('report.payment_transactions');
+
+        Route::post('/payment-transactions-report', [ReportController::class, 'PaymentTransactionsReport'])->name('payment_transactions');
+
+        Route::get('/car-utilization-report', function() {
+            return Inertia::render('Reports/CarUtilizationReport');
+        })->name('report.car_utilization');
+
+        Route::post('/car-utilization-report', [ReportController::class, 'CarUtilizationReport'])->name('car_utilization_report');
     });
 
 });
