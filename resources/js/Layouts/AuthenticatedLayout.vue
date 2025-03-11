@@ -1,13 +1,17 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
+
+
 
 const showingNavigationDropdown = ref(false);
+const user = computed(() => usePage().props.auth.user); // Define user as a computed property
+
 </script>
 
 <template>
@@ -59,7 +63,7 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
                             </div>
 
-                            <div
+                            <div v-if="user.is_admin === 0"
                                 class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
                             >
                                 <NavLink
@@ -270,7 +274,9 @@ const showingNavigationDropdown = ref(false);
 
             <!-- Page Content -->
             <main>
-                <slot />
+                <div class="w-full max-w-full overflow-auto">
+                    <slot />
+                </div>
             </main>
         </div>
     </div>

@@ -11,6 +11,8 @@ class Cars extends Model
 {
     protected $table = 'cars';
 
+    protected $fillable = ['is_available'];
+
 
     public function owner()
     {

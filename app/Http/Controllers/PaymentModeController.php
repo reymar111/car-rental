@@ -18,7 +18,7 @@ class PaymentModeController extends Controller
             'payment_modes' => $payment_modes
         ]);
     }
-    
+
     /**
      * Store a newly created resource in storage.
      */
@@ -32,7 +32,8 @@ class PaymentModeController extends Controller
         $p_mode->name = $request->name;
         $p_mode->description = $request->description;
         $p_mode->account_number = $request->account_number;
-        $p_mode->account_name = $request->account_name;        
+        $p_mode->account_name = $request->account_name;
+        $p_mode->notes = $request->notes;
         $p_mode->save();
 
         return to_route('payment_mode.index');
@@ -50,7 +51,8 @@ class PaymentModeController extends Controller
         $p_mode->name = $request->name;
         $p_mode->description = $request->description;
         $p_mode->account_number = $request->account_number;
-        $p_mode->account_name = $request->account_name; 
+        $p_mode->account_name = $request->account_name;
+        $p_mode->notes = $request->notes;
         $p_mode->update();
 
         return to_route('payment_mode.index');

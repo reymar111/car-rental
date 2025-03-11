@@ -40,6 +40,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::prefix('transaction')->group(function () {
         Route::get('/', [TransactionController::class, 'index'])->name('transactions')->middleware('is_admin');
         Route::post('/release/{rental}', [TransactionController::class, 'release'])->name('transactions.release')->middleware('is_admin');
+        Route::post('/return/{rental}', [TransactionController::class, 'return'])->name('transactions.return')->middleware('is_admin');
     });
 
     Route::prefix('owner')->group(function() {
@@ -106,7 +107,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
     });
 
     Route::prefix('rental')->group(function() {
-        Route::get('/', [CarRentalController::class, 'index'])->name('rental.index');
+        Route::get('/', [CarRentalController::class, 'index'])->name('rental.index')->middleware('is_client');
         Route::get('/create', [CarRentalController::class, 'create'])->name('rental.create');
         Route::post('/search_available_car', [CarRentalController::class, 'searchAvailableCar'])->name('rental.search');
         Route::post('/store', [CarRentalController::class, 'store'])->name('rental.store');

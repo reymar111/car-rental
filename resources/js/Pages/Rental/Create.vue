@@ -9,7 +9,7 @@ export default {
         Link,
     },
 
-    props: ['provinces', 'car_types', 'car_colors', 'payments'],
+    props: ['provinces', 'car_types', 'car_colors', 'payments', 'is_admin', 'renters'],
 
     data() {
         return {
@@ -32,8 +32,8 @@ export default {
                 total_amount: '',
                 payment_id: '',
                 pickup_date: '',
-                return_date: '',
                 for_edit: false,
+                renter_id: '',
             }),
 
             cities: [],
@@ -46,6 +46,18 @@ export default {
         };
     },
     computed: {
+        computeReturnDate() {
+            if (this.form.number_days > 0 && this.form.pickup_date != '') {
+                const pickupDate = new Date(this.form.pickup_date);
+                pickupDate.setDate(pickupDate.getDate() + this.form.number_days + 1);
+                        // Format to MM/DD/YYYY
+                const formattedDate = `${pickupDate.getMonth() + 1}/${pickupDate.getDate()}/${pickupDate.getFullYear()}`;
+                return formattedDate;
+            }
+
+            return null;
+        },
+
         getSumNumberDays() {
             if(this.selected_car != null) {
                 let amount = this.getProvince.is_within
@@ -79,7 +91,7 @@ export default {
             return this.form.car_id != '' && this.form.number_passenger > 0 && this.form.number_days > 0;
         },
         isStep3Valid() {
-            return this.form.pickup_date != '' && this.form.return_date != '' && this.form.payment_id != '';
+            return this.form.pickup_date != '' && this.form.payment_id != '';
         },
         getProvince() {
             return this.provinces.find(route => route.id === this.form.route_id) || null;
@@ -196,27 +208,34 @@ export default {
                 <div class="w-full flex-grow p-6">
                 <div v-if="step === 1" class="w-full p-6 bg-gray-100 rounded-lg">
                     <p class="mb-4">🚗 Choose your destination from the available places.</p>
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="relative z-0 w-full mb-5 group">
-                        <label for="floating_email" class="peer-focus:font-medium absolute text-sm text-black-500 dark:text-black-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Select Province</label>
-                        <select @change="mountCities" v-model="form.route_id" id="models" class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Select Province" required >
-                            <option v-for="(item, index) in provinces" :value="item.id" :key="index">{{ item.name }}</option>
-                        </select>
+                        <div class="relative z-0 w-full mb-5 group" v-if="is_admin">
+                            <label for="floating_email" class="peer-focus:font-medium absolute text-sm text-black-500 dark:text-black-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Select Renter</label>
+                            <select v-model="form.renter_id" id="models" class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Select Province" required >
+                                <option v-for="(item, index) in renters" :value="item.id" :key="index">{{ item.name }}</option>
+                            </select>
+                        </div>
                     </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="relative z-0 w-full mb-5 group">
+                            <label for="floating_email" class="peer-focus:font-medium absolute text-sm text-black-500 dark:text-black-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Select Province</label>
+                            <select @change="mountCities" v-model="form.route_id" id="models" class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Select Province" required >
+                                <option v-for="(item, index) in provinces" :value="item.id" :key="index">{{ item.name }}</option>
+                            </select>
+                        </div>
 
-                    <div class="relative z-0 w-full mb-5 group">
-                        <label for="floating_email" class="peer-focus:font-medium absolute text-sm text-black-500 dark:text-black-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Select City</label>
-                        <select v-model="form.route_city_id" id="models" class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Select Province" required >
-                            <option v-for="(item, index) in cities" :value="item.id" :key="index">{{ item.name }}</option>
-                        </select>
-                    </div>
+                        <div class="relative z-0 w-full mb-5 group">
+                            <label for="floating_email" class="peer-focus:font-medium absolute text-sm text-black-500 dark:text-black-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Select City</label>
+                            <select v-model="form.route_city_id" id="models" class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Select Province" required >
+                                <option v-for="(item, index) in cities" :value="item.id" :key="index">{{ item.name }}</option>
+                            </select>
+                        </div>
 
+                        </div>
+                        <div class="flex justify-end mt-4">
+                            <button @click="nextStep" class="mt-2 px-4 py-2 rounded text-white" :class="isStep1Valid ? 'bg-gray-300' : 'bg-blue-500'" :disabled="isStep1Valid">Next</button>
+                        </div>
                     </div>
-                    <div class="flex justify-end mt-4">
-                        <button @click="nextStep" class="mt-2 px-4 py-2 rounded text-white" :class="isStep1Valid ? 'bg-gray-300' : 'bg-blue-500'" :disabled="isStep1Valid">Next</button>
-                    </div>
-                </div>
 
                 <div v-if="step === 2" class="w-full p-6 bg-gray-100 rounded-lg">
                     <p class="mb-6">🚘 Select the car that best suits your trip.</p>
@@ -392,10 +411,9 @@ export default {
                                     </div>
                                 </div>
 
-                                <div class="relative overflow-x-auto">
+                                <div class="relative overflow-x-auto" v-if="computeReturnDate != null">
                                     <div class="mt-4 relative z-0 w-full mb-5 group">
-                                        <input v-model="form.return_date" type="date" name="test" id="test" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                                        <label for="test" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-black-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Return Date</label>
+                                        You will return the rented car on or before: <b>{{ computeReturnDate }}</b>
                                     </div>
                                 </div>
 
@@ -513,7 +531,7 @@ export default {
                                                     Return Date
                                                 </th>
                                                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                {{ form.return_date }}
+                                                    {{  computeReturnDate }}
                                                 </td>
                                             </tr>
 

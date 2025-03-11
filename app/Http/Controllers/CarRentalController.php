@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cars;
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Routes;
 use App\Models\CarType;
@@ -29,8 +30,9 @@ class CarRentalController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        $is_admin = $request->user()->is_admin === 1 ? true : false;
 
         $provinces = Routes::with(['cities' => function ($query) {
             $query->orderBy('name'); // Remove 'return' and just call the method
@@ -39,12 +41,16 @@ class CarRentalController extends Controller
         $types = CarType::all();
         $car_colors = CarColor::all();
         $payments = PaymentMode::all();
+        $renters = User::where('is_admin', 0)->select(['id', 'name'])->get();
 
         return Inertia::render('Rental/Create', [
             'provinces' => $provinces,
             'car_types' => $types,
             'car_colors' => $car_colors,
             'payments' => $payments,
+            'renters' => $is_admin ? $renters : null,
+            'is_admin' => $is_admin
+
         ]);
 
     }
@@ -106,7 +112,7 @@ class CarRentalController extends Controller
 
         $rental = new CarRental();
         $rental->transaction_number = 'TXN-' . strtoupper(uniqid());
-        $rental->user_id = $request->user()->id;
+
         $rental->route_id = $request->route_id;
         $rental->route_city_id = $request->route_city_id;
         $rental->car_id = $request->car_id;
@@ -118,8 +124,13 @@ class CarRentalController extends Controller
         $rental->total_amount = $request->total_amount;
         $rental->payment_id = $request->payment_id;
         $rental->pickup_date = $request->pickup_date;
-        $rental->return_date = $request->return_date;
         $rental->status_id = 2;
+        if($request->is_admin && $request->renter_id != '')
+        {
+            $rental->user_id = $request->renter_id;
+        } else {
+            $rental->user_id = $request->user()->id;
+        }
         $rental->save();
 
         /*
@@ -162,6 +173,8 @@ class CarRentalController extends Controller
             'car_color',
             'payment',
             'proof_payment',
+            'user',
+            'rating',
         ]);
 
         return Inertia::render('Rental/Show', [
@@ -181,6 +194,8 @@ class CarRentalController extends Controller
             return redirect()->back();
         }
 
+        $is_admin = $request->user()->is_admin === 1 ? true : false;
+
 
         $provinces = Routes::with(['cities' => function ($query) {
             $query->orderBy('name'); // Remove 'return' and just call the method
@@ -189,6 +204,7 @@ class CarRentalController extends Controller
         $types = CarType::all();
         $car_colors = CarColor::all();
         $payments = PaymentMode::all();
+        $renters = User::where('is_admin', 0)->select(['id', 'name'])->get();
 
         return Inertia::render('Rental/Edit', [
             'provinces' => $provinces,
@@ -196,6 +212,8 @@ class CarRentalController extends Controller
             'car_colors' => $car_colors,
             'payments' => $payments,
             'rent' => $rental,
+            'renters' => $is_admin ? $renters : null,
+            'is_admin' => $is_admin
         ]);
 
     }
@@ -252,7 +270,6 @@ class CarRentalController extends Controller
         $rental->total_amount = $request->total_amount;
         $rental->payment_id = $request->payment_id;
         $rental->pickup_date = $request->pickup_date;
-        $rental->return_date = $request->return_date;
         $rental->status_id = 2;
         $rental->update();
 

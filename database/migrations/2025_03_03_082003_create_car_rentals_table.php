@@ -26,7 +26,6 @@ return new class extends Migration
             $table->decimal('total_amount', 8, 2);
             $table->integer('payment_id');
             $table->date('pickup_date');
-            $table->date('return_date');
             $table->integer('status_id')->default(1);
             $table->text('notes')->nullable();
             $table->timestamps();

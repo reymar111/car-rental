@@ -30,4 +30,17 @@ class TransactionController extends Controller
         // return to_route('transaction');
 
     }
+
+    public function return(CarRental $rental)
+    {
+
+        $rental->status_id = 5;
+        $rental->update();
+
+        if ($rental->car) {
+            $rental->car->update(['is_available' => 1]);
+        }
+
+
+    }
 }

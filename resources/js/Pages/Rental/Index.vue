@@ -105,13 +105,8 @@ export default {
                                         <span class="text-lg text-blue-600 font-medium">{{ item.status }}</span>
                                     </h5>
 
-
-
-
                             <p class="mb-1 text-base text-gray-500 sm:text-lg">🛒 {{ item.transaction_number }}</p>
                             <p class="mb-1 text-base text-gray-500 sm:text-lg">🚗 {{ item.car.model.brand.name }} {{ item.car.model.name }} {{ item.car.year }}</p>
-
-
 
                             <div class="flex items-center justify-start space-x-4">
                                 <!-- View Button -->
