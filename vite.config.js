@@ -32,7 +32,19 @@ export default defineConfig({
         // emptyOutDir: true,
         // manifest: true,
         rollupOptions: {
-            external: ['/logo.png', '/car.webp'],
+            external: [
+                '/logo.png',
+                '/car.webp',
+                '/logos/ford.png',
+                '/logos/honda.png',
+                '/logos/ford.png',
+                '/logos/hyundai.png',
+                '/logos/kia.png',
+                '/logos/mazda.png',
+                '/logos/mitsubishi.png',
+                '/logos/suzuki.png',
+                '/logos/toyota.png',
+            ],
             output: {
                 chunkFileNames: 'assets/[name]-[hash].js',
                 entryFileNames: 'assets/[name]-[hash].js',
