@@ -23,13 +23,13 @@ import { Link } from '@inertiajs/vue3';
                     class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
                 >
                     <div class="p-6 text-gray-900">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-                            <div class="...">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-1 p-0">
+                            <div class="md:col-span-1">
                                 <ul class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 md:me-4 mb-4 md:mb-0">
                                 <li>
                                     <Link
-                                        :href="route('owner.index')"
-                                        :class="route().current('owner.index') ? 'inline-flex items-center px-4 py-3 rounded-lg text-black bg-blue-300 hover:text-blue-900  hover:bg-blue-100 w-full' : 'inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-100 hover:bg-blue-100 w-full '"
+                                        :href="route('report.revenue')"
+                                        :class="route().current('report.revenue') ? 'inline-flex items-center px-4 py-3 rounded-lg text-black bg-blue-300 hover:text-blue-900  hover:bg-blue-100 w-full' : 'inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-100 hover:bg-blue-100 w-full '"
                                     >
                                     <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M6 14h2m3 0h5M3 7v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1Z"/>
@@ -135,8 +135,8 @@ import { Link } from '@inertiajs/vue3';
                             </ul>
                             </div>
 
-                            <div class="col-span-2">
-                                <div class="p-1 bg-gray-100 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full overflow-hidden">
+                            <div class="md:col-span-3">
+                                <div class="p-0 bg-gray-100 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full overflow-hidden">
                                     <div class="w-full max-w-full overflow-auto">
                                         <slot />
                                     </div>

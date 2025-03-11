@@ -299,14 +299,6 @@ class DatabaseSeeder extends Seeder
                 ['province_id' => 6, 'name' => 'Sabtang'],
                 ['province_id' => 6, 'name' => 'Uyugan']
             ]],
-            ['id' => 8, 'name' => 'Batanes', 'cities' => [
-                ['province_id' => 8, 'name' => 'Basco'],
-                ['province_id' => 8, 'name' => 'Itbayat'],
-                ['province_id' => 8, 'name' => 'Ivana'],
-                ['province_id' => 8, 'name' => 'Mahatao'],
-                ['province_id' => 8, 'name' => 'Sabtang'],
-                ['province_id' => 8, 'name' => 'Uyugan']
-            ]],
             ['id' => 9, 'name' => 'Batangas', 'cities' => [
                 ['province_id' => 9, 'name' => 'Batangas City'],
                 ['province_id' => 9, 'name' => 'Lipa City'],

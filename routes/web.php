@@ -15,6 +15,7 @@ use App\Http\Controllers\CarRentalController;
 use App\Http\Controllers\CarRentalRatingController;
 use App\Http\Controllers\PaymentModeController;
 use App\Http\Controllers\RentalPaymentController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RouteCitiesController;
 use App\Http\Controllers\TransactionController;
 
@@ -26,12 +27,6 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
-
-
-
-    Route::get('/reports', function () {
-        return Inertia::render('Reports');
-    })->name('reports');
 
     Route::get('/settings', function () {
         return Inertia::render('Settings');
@@ -124,6 +119,18 @@ Route::middleware(['auth', 'verified'])->group(function() {
 
     Route::prefix('rating')->group(function() {
         Route::post('/store/{rental}', [CarRentalRatingController::class, 'store'])->name('rating.store');
+    });
+
+    Route::prefix('reports')->group(function() {
+        Route::get('/', function () {
+            return Inertia::render('Reports');
+        })->name('reports');
+
+        Route::get('/revenues-report', function() {
+            return Inertia::render('Reports/RevenueReport');
+        })->name('report.revenue');
+
+        Route::post('/revenues-report', [ReportController::class, 'RevenueReport'])->name('revenue');
     });
 
 });

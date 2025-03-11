@@ -122,7 +122,7 @@ export default {
             </h2>
         </template>
 
-        <div class="py-10">
+        <div class="py-5">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
