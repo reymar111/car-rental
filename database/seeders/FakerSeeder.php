@@ -89,5 +89,15 @@ class FakerSeeder extends Seeder
                 'updated_at' => $rental->dateTimeBetween('now', '+30 days')->format('Y-m-d H:i:s'),
             ]);
         }
+
+        $feedback = Faker::create();
+
+        foreach(range(1, 40) as $index) {
+            DB::table('car_rental_ratings')->insert([
+                'car_rental_id' => $index,
+                'value' => $feedback->numberBetween(1,5),
+                'notes' => $feedback->sentence,
+            ]);
+        }
     }
 }

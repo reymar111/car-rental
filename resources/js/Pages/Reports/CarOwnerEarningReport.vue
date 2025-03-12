@@ -26,7 +26,7 @@ export default {
     methods: {
         async filter() {
             try {
-                let response = await axios.post('/reports/car-utilization-report', this.form); // Replace with your API route
+                let response = await axios.post('/reports/car-owner-earning-report', this.form); // Replace with your API route
                 this.data = response.data.result;
 
             } catch (error) {
@@ -42,32 +42,29 @@ export default {
 </script>
 
 <template>
-    <Head title="Car Utilization Report" />
+    <Head title="Car Owner Earning Report" />
 
     <Reports>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-2 py-3">
-                        Plate #
-                    </th>
-                    <th scope="col" class="px-2 py-3">
                         Owner
                     </th>
                     <th scope="col" class="px-2 py-3">
-                        Total Rental
+                        Total Car Listed
                     </th>
                     <th scope="col" class="px-2 py-3">
-                        Total Rental Days
+                        Total Rentals
                     </th>
                     <th scope="col" class="px-2 py-3">
-                        Last Rented Date
+                        Total Earnings
                     </th>
                     <th scope="col" class="px-2 py-3">
-                        Revenue Generated
+                        Average Earnings per Rental
                     </th>
                     <th scope="col" class="px-2 py-3">
-                        Car Availability
+                        Average Earnings per Day
                     </th>
 
                 </tr>
@@ -76,27 +73,23 @@ export default {
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
                     v-for="(item, index) in data" :key="index">
                     <td scope="row" class="px-2 font-medium text-gray-900 whitespace-nowrap">
-                        {{ item.plate_number }}
+                        {{ item.owner_name }}
                     </td>
                     <td scope="row" class="px-2 font-medium text-gray-900 whitespace-nowrap">
-                        {{ item.owner }}
+                        {{ item.total_cars_listed }}
                     </td>
                     <td scope="row" class="px-2 font-medium text-gray-900 whitespace-nowrap">
                         {{ item.total_rentals }}
                     </td>
                     <td scope="row" class="px-2 font-medium text-gray-900 whitespace-nowrap">
-                        {{ item.total_rental_days }}
+                        ₱ {{ item.total_earnings }}
                     </td>
                     <td scope="row" class="px-2 font-medium text-gray-900 whitespace-nowrap">
-                        {{ item.last_rented_date }}
+                        ₱ {{ item.average_earnings_per_rental }}
                     </td>
                     <td scope="row" class="px-2 font-medium text-gray-900 whitespace-nowrap">
-                        ₱ {{ item.revenue_generated }}
+                        ₱ {{ item.average_earnings_per_day }}
                     </td>
-                    <td scope="row" class="px-2 font-medium text-gray-900 whitespace-nowrap">
-                        {{ item.current_status }}
-                    </td>
-
                 </tr>
 
             </tbody>

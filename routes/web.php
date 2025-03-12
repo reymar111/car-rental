@@ -13,6 +13,7 @@ use App\Http\Controllers\CarModelController;
 use App\Http\Controllers\CarOwnerController;
 use App\Http\Controllers\CarRentalController;
 use App\Http\Controllers\CarRentalRatingController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentModeController;
 use App\Http\Controllers\RentalPaymentController;
 use App\Http\Controllers\ReportController;
@@ -24,9 +25,11 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function() {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+
+    Route::prefix('dashboard')->group(function() {
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    })->middleware('is_admin');
+
 
     Route::get('/settings', function () {
         return Inertia::render('Settings');
@@ -126,6 +129,8 @@ Route::middleware(['auth', 'verified'])->group(function() {
             return Inertia::render('Reports');
         })->name('reports');
 
+
+        // revenues report
         Route::get('/revenues-report', function() {
             return Inertia::render('Reports/RevenueReport');
         })->name('report.revenue');
@@ -133,23 +138,48 @@ Route::middleware(['auth', 'verified'])->group(function() {
         Route::post('/revenues-report', [ReportController::class, 'RevenueReport'])->name('revenue');
 
 
+        // booking report
         Route::get('/booking-report', function() {
             return Inertia::render('Reports/BookingReport');
         })->name('report.booking');
 
         Route::post('/booking-report', [ReportController::class, 'BookingReport'])->name('booking');
 
+        // payment transactions report
         Route::get('/payment-transactions-report', function() {
             return Inertia::render('Reports/PaymentTransactionsReport');
         })->name('report.payment_transactions');
 
         Route::post('/payment-transactions-report', [ReportController::class, 'PaymentTransactionsReport'])->name('payment_transactions');
 
+        // car utilization report
         Route::get('/car-utilization-report', function() {
             return Inertia::render('Reports/CarUtilizationReport');
         })->name('report.car_utilization');
 
         Route::post('/car-utilization-report', [ReportController::class, 'CarUtilizationReport'])->name('car_utilization_report');
+
+        // car owner earning report
+        Route::get('/car-owner-earning-report', function() {
+            return Inertia::render('Reports/CarOwnerEarningReport');
+        })->name('report.car_owner_earning');
+
+        Route::post('/car-owner-earning-report', [ReportController::class, 'CarOwnerEarningReport'])->name('car_owner_earning_report');
+
+        // customer feedback report
+        Route::get('/customer-feedback', function() {
+            return Inertia::render('Reports/CustomerFeedbackReport');
+        })->name('report.customer_feedback');
+
+        Route::post('/customer-feedback', [ReportController::class, 'CustomerFeedbackReport'])->name('customer_feedback');
+
+
+        // car status report
+        Route::get('/car-status', function() {
+            return Inertia::render('Reports/CarStatus');
+        })->name('report.car_status');
+
+        Route::post('/car-status', [ReportController::class, 'CarStatusReport'])->name('car_status');
     });
 
 });
