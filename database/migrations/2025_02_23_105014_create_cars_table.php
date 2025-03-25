@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('owner_id');
             $table->integer('model_id');
             $table->integer('color_id');
-            // $table->integer('type_id')->nullable();
+            $table->integer('type_id')->nullable();
             $table->string('year');
             $table->string('plate_number');
             $table->integer('max_capacity');
