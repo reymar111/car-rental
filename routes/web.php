@@ -39,6 +39,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
         Route::get('/', [TransactionController::class, 'index'])->name('transactions')->middleware('is_admin');
         Route::post('/release/{rental}', [TransactionController::class, 'release'])->name('transactions.release')->middleware('is_admin');
         Route::post('/return/{rental}', [TransactionController::class, 'return'])->name('transactions.return')->middleware('is_admin');
+        Route::post('/confirm/{rental}', [TransactionController::class, 'confirm'])->name('transactions.confirm')->middleware('is_admin');
     });
 
     Route::prefix('owner')->group(function() {
@@ -113,6 +114,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
         Route::get('/edit/{rental}', [CarRentalController::class, 'edit'])->name('rental.edit');
         Route::patch('/update/{rental}', [CarRentalController::class, 'update'])->name('rental.update');
         Route::delete('/delete/{route}', [CarRentalController::class, 'destroy'])->name('rental.delete');
+        Route::patch('/cancel/{rental}', [CarRentalController::class, 'cancel'])->name('rental.cancel');
     });
 
     Route::prefix('payment')->group(function() {

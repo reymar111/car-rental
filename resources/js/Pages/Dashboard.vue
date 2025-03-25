@@ -60,7 +60,7 @@ export default {
                         <div class="mt-4 p-4 bg-gray-100 rounded-lg">
                             <p class="text-lg text-gray-700">Total Bookings: <span class="font-semibold text-blue-600">{{ monthly_summary != null ? monthly_summary.total_bookings : '' }}</span></p>
                             <p class="text-lg text-gray-700">Completed Trips: <span class="font-semibold text-green-600">{{ monthly_summary != null ? monthly_summary.completed_trips : '' }}</span></p>
-                            <p class="text-lg text-gray-700">Canceled Trips: <span class="font-semibold text-red-600">{{ monthly_summary != null ? monthly_summary.ongoing_trips : '' }}</span></p>
+                            <p class="text-lg text-gray-700">Canceled Trips: <span class="font-semibold text-red-600">{{ monthly_summary != null ? monthly_summary.canceled_trips : '' }}</span></p>
                         </div>
                     </div>
                 </div>

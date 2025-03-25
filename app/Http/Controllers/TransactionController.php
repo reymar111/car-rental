@@ -43,4 +43,13 @@ class TransactionController extends Controller
 
 
     }
+
+    public function confirm(CarRental $rental)
+    {
+
+        $rental->status_id = 2;
+        $rental->update();
+
+
+    }
 }

@@ -23,11 +23,11 @@ const submit = () => {
 <template>
     <GuestLayout>
         <Head title="Register" />
-        <section class="bg-white-50 dark:bg-white-900">
-            <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                <img class="rounded-full w-50 h-35" src="/logo.png" alt="image description">
-                <div class="w-full bg-gray-50 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0">
-                    <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <section class="bg-white-90 dark:bg-white-900 w-full h-screen">
+                <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 w-full">
+                    <!-- <img class="rounded-full w-50 h-35" src="/logo.png" alt="image description"> -->
+                    <div class="max-w-[500px] w-full bg-gray-200 rounded-lg shadow dark:border md:mt-0 xl:p-0">
+                        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 class="text-xl font-bold leading-tight tracking-tight">
                             Register your account
                         </h1>
@@ -63,6 +63,38 @@ const submit = () => {
 
                                 <InputError class="mt-2" :message="form.errors.email" />
                             </div>
+
+
+                            <div class="mt-4">
+                                <InputLabel for="contact_number" value="Contact Number" />
+
+                                <TextInput
+                                    id="contact_number"
+                                    type="number"
+                                    class="mt-1 block w-full"
+                                    v-model="form.contact_number"
+                                    required
+                                    autocomplete="username"
+                                />
+
+                                <InputError class="mt-2" :message="form.errors.contact_number" />
+                            </div>
+
+                            <div class="mt-4">
+                                <InputLabel for="address" value="Address" />
+
+                                <TextInput
+                                    id="address"
+                                    type="text"
+                                    class="mt-1 block w-full"
+                                    v-model="form.address"
+                                    required
+                                    autocomplete="username"
+                                />
+
+                                <InputError class="mt-2" :message="form.errors.address" />
+                            </div>
+
 
                             <div class="mt-4">
                                 <InputLabel for="password" value="Password" />

@@ -24,15 +24,15 @@ class CarRental extends Model
         3 - PAID, WAITING FOR RELEASE
         4 - RELEASED
         5 - COMPLETED
-        6 - CONFIRMED
-        7 - CANCELED
+        6 - FOR CONFIRMATION
+        8 - CANCELED
         */
 
         switch ($this->status_id) {
             case 1:
                 return 'AVAILABLE';
             case 2:
-                return 'FOR PAYMENT';
+                return 'CONFIRMED, FOR PAYMENT';
             case 3:
                 return 'PAID, WAITING FOR RELEASE';
             case 4:
@@ -40,8 +40,8 @@ class CarRental extends Model
             case 5:
                 return 'COMPLETED';
             case 6:
-                return 'CONFIRMED';
-            case 7:
+                return 'FOR CONFIRMATION';
+            case 8:
                 return 'CANCELED';
             default:
                 return 'UNKNOWN';

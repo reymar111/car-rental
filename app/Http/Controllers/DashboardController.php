@@ -38,11 +38,12 @@ class DashboardController extends Controller
         ->first();
 
         $monthlySummary = DB::table('car_rentals')
-        ->whereRaw('YEAR(pickup_date) = YEAR(CURDATE()) AND MONTH(pickup_date) = MONTH(CURDATE())')
+        // ->whereRaw('YEAR(pickup_date) = YEAR(CURDATE()) AND MONTH(pickup_date) = MONTH(CURDATE())')
         ->select(
             DB::raw('COUNT(id) as total_bookings'),
             DB::raw('SUM(CASE WHEN status_id = 5 THEN 1 ELSE 0 END) as completed_trips'),
-            DB::raw('SUM(CASE WHEN status_id != 5 THEN 1 ELSE 0 END) as ongoing_trips')
+            DB::raw('SUM(CASE WHEN status_id != 5 THEN 1 ELSE 0 END) as ongoing_trips'),
+            DB::raw('SUM(CASE WHEN status_id = 8 THEN 1 ELSE 0 END) as canceled_trips')
         )
         ->first();
 

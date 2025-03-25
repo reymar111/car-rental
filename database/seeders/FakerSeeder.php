@@ -84,7 +84,7 @@ class FakerSeeder extends Seeder
                 'total_amount' => $rental->randomFloat(2, 2500, 15000),
                 'payment_id' => $rental->numberBetween(1,3),
                 'pickup_date' => $rental->dateTimeBetween('now', '+30 days')->format('Y-m-d H:i:s'),
-                'status_id' => $rental->numberBetween(1, 5),
+                'status_id' => $rental->numberBetween(1, 8),
                 'created_at' => $rental->dateTimeBetween('now', '+30 days')->format('Y-m-d H:i:s'),
                 'updated_at' => $rental->dateTimeBetween('now', '+30 days')->format('Y-m-d H:i:s'),
             ]);

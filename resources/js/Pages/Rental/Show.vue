@@ -203,7 +203,7 @@ export default {
 
                     <button  @click="OpenreleaseCarDialog(rent)" v-if="rent.status_id === 3 && user.is_admin === 1"
                         class="w-full sm:w-auto bg-teal-800 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-teal-700 dark:hover:bg-teal-600 dark:focus:ring-teal-700">
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-white-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
                         </svg>
 
@@ -211,7 +211,7 @@ export default {
                     </button>
 
                     <button  @click="OpenReturnCarDialog(rent)" v-if="rent.status_id === 4 && user.is_admin === 1"
-                        class="w-full sm:w-auto bg-green-800 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-green-700 dark:hover:bg-green-600 dark:focus:ring-green-700">
+                        class="w-full sm:w-auto bg-orange-800 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-orange-700 dark:hover:bg-orange-600 dark:focus:ring-orange-700">
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4"/>
                         </svg>

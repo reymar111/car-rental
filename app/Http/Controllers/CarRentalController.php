@@ -124,7 +124,7 @@ class CarRentalController extends Controller
         $rental->total_amount = $request->total_amount;
         $rental->payment_id = $request->payment_id;
         $rental->pickup_date = $request->pickup_date;
-        $rental->status_id = 2;
+        $rental->status_id = 6;
         if($request->is_admin && $request->renter_id != '')
         {
             $rental->user_id = $request->renter_id;
@@ -290,7 +290,7 @@ class CarRentalController extends Controller
             return redirect()->back();
         }
 
-        $rental->status_id = 3;
+        $rental->status_id = 2;
         $rental->confirmed_at = now();
         $rental->update();
 
@@ -300,10 +300,12 @@ class CarRentalController extends Controller
     public function cancel(CarRental $rental, Request $request)
     {
 
-        $rental->status_id = 3;
+        $rental->status_id = 8;
         $rental->canceled_at = now();
-        $rental->cancelled_by = $request->user()->id;
+        $rental->canceled_by = $request->user()->id;
         $rental->update();
+
+        return to_route('rental.index')->with(['is_cancelled' => true]);
 
     }
 

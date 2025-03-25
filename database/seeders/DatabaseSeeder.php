@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
 
         $users = [
             [
-                'name' => 'John Doe',
+                'name' => 'Administrator',
                 'email' => 'admin@admin.com',
                 'password' => bcrypt('1234567890'),
                 'is_admin' => true,
@@ -26,10 +26,10 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
-                'name' => 'John Doe',
+                'name' => 'Juan Dela Cruz',
                 'email' => 'user@user.com',
                 'password' => bcrypt('1234567890'),
-                'is_admin' => true,
+                'is_admin' => false,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
