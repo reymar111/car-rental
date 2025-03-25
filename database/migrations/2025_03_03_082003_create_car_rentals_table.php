@@ -28,6 +28,9 @@ return new class extends Migration
             $table->date('pickup_date');
             $table->integer('status_id')->default(1);
             $table->text('notes')->nullable();
+            $table->timestamp('confirmed_at')->nullable();
+            $table->timestamp('cancelled_at')->nullable();
+            $table->integer('cancelled_by')->nullable();
             $table->timestamps();
         });
     }

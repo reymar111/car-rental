@@ -24,6 +24,8 @@ class CarRental extends Model
         3 - PAID, WAITING FOR RELEASE
         4 - RELEASED
         5 - COMPLETED
+        6 - CONFIRMED
+        7 - CANCELED
         */
 
         switch ($this->status_id) {
@@ -37,6 +39,10 @@ class CarRental extends Model
                 return 'RELEASED';
             case 5:
                 return 'COMPLETED';
+            case 6:
+                return 'CONFIRMED';
+            case 7:
+                return 'CANCELED';
             default:
                 return 'UNKNOWN';
         }

@@ -284,6 +284,29 @@ class CarRentalController extends Controller
         */
     }
 
+    public function confirm(CarRental $rental, Request $request)
+    {
+        if($request->user()->is_admin != 1 && $rental->user_id != $request->user()->id) {
+            return redirect()->back();
+        }
+
+        $rental->status_id = 3;
+        $rental->confirmed_at = now();
+        $rental->update();
+
+        return to_route('rental.index');
+    }
+
+    public function cancel(CarRental $rental, Request $request)
+    {
+
+        $rental->status_id = 3;
+        $rental->canceled_at = now();
+        $rental->cancelled_by = $request->user()->id;
+        $rental->update();
+
+    }
+
     /**
      * Remove the specified resource from storage.
      */

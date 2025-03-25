@@ -34,7 +34,7 @@ const user = computed(() => usePage().props.auth.user); // Define user as a comp
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden text-left space-x-2 sm:-my-px sm:ms-5 sm:flex">
+                            <div class="hidden text-left space-x-2 sm:-my-px sm:ms-5 sm:flex" v-if="$page.props.auth.user.is_admin == 1">
                                 <NavLink
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
@@ -47,9 +47,7 @@ const user = computed(() => usePage().props.auth.user); // Define user as a comp
                                 </NavLink>
                             </div>
 
-                            <div
-                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
-                            >
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex" v-if="$page.props.auth.user.is_admin == 1">
                                 <NavLink
                                     :href="route('transactions')"
                                     :active="route().current('transactions')"
@@ -63,9 +61,7 @@ const user = computed(() => usePage().props.auth.user); // Define user as a comp
                                 </NavLink>
                             </div>
 
-                            <div v-if="user.is_admin === 0"
-                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
-                            >
+                            <div v-if="$page.props.auth.user.is_admin == 0" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink
                                     :href="route('rental.index')"
                                     :active="route().current('rental.index')"
@@ -78,9 +74,7 @@ const user = computed(() => usePage().props.auth.user); // Define user as a comp
                                 </NavLink>
                             </div>
 
-                            <div
-                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
-                            >
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex" v-if="$page.props.auth.user.is_admin == 1">
                                 <NavLink
                                     :href="route('reports')"
                                     :active="route().current('reports')"
@@ -93,9 +87,7 @@ const user = computed(() => usePage().props.auth.user); // Define user as a comp
                                 </NavLink>
                             </div>
 
-                            <div
-                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
-                            >
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex" v-if="$page.props.auth.user.is_admin == 1">
                                 <NavLink
                                     :href="route('settings')"
                                     :active="route().current('settings')"
@@ -210,6 +202,7 @@ const user = computed(() => usePage().props.auth.user); // Define user as a comp
                 >
                     <div class="space-y-1 pb-3 pt-2">
                         <ResponsiveNavLink
+                            v-if="$page.props.auth.user.is_admin == 1"
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
                         >
@@ -217,6 +210,7 @@ const user = computed(() => usePage().props.auth.user); // Define user as a comp
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink
+                            v-if="$page.props.auth.user.is_admin == 1"
                             :href="route('transactions')"
                             :active="route().current('transactions')"
                         >
@@ -224,6 +218,23 @@ const user = computed(() => usePage().props.auth.user); // Define user as a comp
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink
+                            v-if="$page.props.auth.user.is_admin == 0"
+                            :href="route('reports')"
+                            :active="route().current('reports')"
+                        >
+                            My Travels
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink
+                            v-if="$page.props.auth.user.is_admin == 1"
+                            :href="route('reports')"
+                            :active="route().current('reports')"
+                        >
+                            Reports
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink
+                            v-if="$page.props.auth.user.is_admin == 1"
                             :href="route('settings')"
                             :active="route().current('settings')"
                         >
