@@ -56,7 +56,7 @@ class DashboardController extends Controller
             ->join('car_types', 'c.type_id', 'car_types.id')
             ->whereRaw('YEARWEEK(r.pickup_date, 1) = YEARWEEK(CURDATE(), 1)')
             ->select('car_types.name', DB::raw('COUNT(r.id) as rental_count'))
-            ->groupBy('c.id', 'c.type_id')
+            ->groupBy('car_types.name', 'c.id', 'c.type_id')
             ->orderByDesc('rental_count')
             ->first();
 
