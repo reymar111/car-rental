@@ -57,7 +57,7 @@ class RoutesController extends Controller
      */
     public function destroy(Routes $route)
     {
-        $route->route_cities()->delete();
+        $route->cities()->delete();
 
         $route->delete();
 
