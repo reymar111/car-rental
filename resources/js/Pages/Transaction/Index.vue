@@ -38,6 +38,8 @@ export default {
             is_returned: false,
 
             loading_button: false,
+
+            is_confirmed: false,
         }
     },
 
@@ -276,8 +278,7 @@ export default {
                                             {{ item.status }}
                                         </th>
                                         <td class="px-3 py-2 font-medium text-gray-900 whitespace-nowrap">
-                                            {{ item.status_id }}
-                                            <button  @click="OpenConfirmCarDialog(item)" v-if="item.status_id === 6" type="button" class="text-white bg-violet-700 hover:bg-violet-800 focus:ring-4 focus:ring-violet-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none ">Confirm</button>
+                                            <button  @click="OpenConfirmCarDialog(item)" v-if="item.status_id == 6" type="button" class="text-white bg-violet-700 hover:bg-violet-800 focus:ring-4 focus:ring-violet-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none ">Confirm</button>
 
                                             <Link :href="route('rental.show', {'rental' : item.id})">
                                                 <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none ">View</button>
@@ -286,8 +287,8 @@ export default {
                                             <Link :href="route('rental.edit', {'rental' : item.id})" v-if="item.status_id < 3">
                                                 <button type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none ">Edit</button>
                                             </Link>
-                                            <button  @click="OpenreleaseCarDialog(item)" v-if="item.status_id === 3" type="button" class="text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none ">Release</button>
-                                            <button  @click="OpenReturnCarDialog(item)" v-if="item.status_id === 4" type="button" class="text-white bg-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none ">Return</button>
+                                            <button  @click="OpenreleaseCarDialog(item)" v-if="item.status_id == 3" type="button" class="text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none ">Release</button>
+                                            <button  @click="OpenReturnCarDialog(item)" v-if="item.status_id == 4" type="button" class="text-white bg-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none ">Return</button>
                                         </td>
                                     </tr>
 
