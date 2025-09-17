@@ -276,6 +276,7 @@ export default {
                                             {{ item.status }}
                                         </th>
                                         <td class="px-3 py-2 font-medium text-gray-900 whitespace-nowrap">
+                                            {{ item.status_id }}
                                             <button  @click="OpenConfirmCarDialog(item)" v-if="item.status_id === 6" type="button" class="text-white bg-violet-700 hover:bg-violet-800 focus:ring-4 focus:ring-violet-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none ">Confirm</button>
 
                                             <Link :href="route('rental.show', {'rental' : item.id})">
