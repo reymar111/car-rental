@@ -47,7 +47,7 @@ export default {
     },
     beforeMount() {
         // Initialize any data or perform actions before the component is mounted
-        this.provinces.find(route => route.id === this.rent.route_id) || null;
+        this.provinces.find(route => route.id == this.rent.route_id) || null;
     },
     computed: {
         user() {
@@ -66,12 +66,12 @@ export default {
         },
 
         getProvince() {
-            return this.provinces.find(route => route.id === this.rent.route_id)
+            return this.provinces.find(route => route.id == this.rent.route_id)
                 || { is_within: false };
         },
 
         // getProvince() {
-        //     return this.provinces.find(route => route.id === this.rent.route_id) || null;
+        //     return this.provinces.find(route => route.id == this.rent.route_id) || null;
         // },
 
         getSumNumberDays() {
@@ -193,7 +193,7 @@ export default {
                 🛒 {{ rent.transaction_number }}
 
                 <div class="flex gap-2">
-                    <Link :href="route('payment.create', {'rental' : rent.id})" v-if="rent.status_id === 2 && user.id === rent.user_id"
+                    <Link :href="route('payment.create', {'rental' : rent.id})" v-if="rent.status_id == 2 && user.id == rent.user_id"
                         class="w-full sm:w-auto bg-blue-800 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-blue-700 dark:hover:bg-blue-600 dark:focus:ring-blue-700">
                         <svg class="w-6 h-6 text-white-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M6 14h2m3 0h5M3 7v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1Z"/>
@@ -202,7 +202,7 @@ export default {
                         <div class="text-sm font-semibold">Pay</div>
                     </Link>
 
-                    <Link :href="route('rental.edit', {'rental' : rent.id})"  v-if="rent.status_id === 2"
+                    <Link :href="route('rental.edit', {'rental' : rent.id})"  v-if="rent.status_id == 2"
                         class="w-full sm:w-auto bg-yellow-800 hover:bg-yellow-700 focus:ring-4 focus:outline-none focus:ring-yellow-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-yellow-700 dark:hover:bg-yellow-600 dark:focus:ring-yellow-700">
                         <svg class="w-6 h-6 text-white-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
@@ -210,7 +210,7 @@ export default {
                         <div class="text-sm font-semibold">Edit</div>
                     </Link>
 
-                    <button  @click="OpenreleaseCarDialog(rent)" v-if="rent.status_id === 3 && user.is_admin === 1"
+                    <button  @click="OpenreleaseCarDialog(rent)" v-if="rent.status_id == 3 && user.is_admin == 1"
                         class="w-full sm:w-auto bg-teal-800 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-teal-700 dark:hover:bg-teal-600 dark:focus:ring-teal-700">
                         <svg class="w-6 h-6 text-white-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
@@ -219,7 +219,7 @@ export default {
                         <div class="text-sm font-semibold">RELEASE CAR</div>
                     </button>
 
-                    <button  @click="OpenReturnCarDialog(rent)" v-if="rent.status_id === 4 && user.is_admin === 1"
+                    <button  @click="OpenReturnCarDialog(rent)" v-if="rent.status_id == 4 && user.is_admin == 1"
                         class="w-full sm:w-auto bg-orange-800 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-orange-700 dark:hover:bg-orange-600 dark:focus:ring-orange-700">
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4"/>
@@ -229,7 +229,7 @@ export default {
                         <div class="text-sm font-semibold">RETURN CAR</div>
                     </button>
 
-                    <button  @click="openRating(rent.id)" v-if="rent.status_id === 5 && rent.user_id == user.id && rent.rating == null"
+                    <button  @click="openRating(rent.id)" v-if="rent.status_id == 5 && rent.user_id == user.id && rent.rating == null"
                         class="w-full sm:w-auto bg-yellow-800 hover:bg-yellow-700 focus:ring-4 focus:outline-none focus:ring-yellow-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-teal-700 dark:hover:bg-teal-600 dark:focus:ring-teal-700">
                         <div class="text-sm font-semibold">RATE YOUR EXPERIENCE</div>
                     </button>

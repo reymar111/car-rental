@@ -163,7 +163,7 @@ export default {
                                 </Link>
 
                                 <!-- Pay Button -->
-                                <Link v-if="item.status_id === 2" :href="route('payment.create', {'rental' : item.id})" class="
+                                <Link v-if="item.status_id == 2" :href="route('payment.create', {'rental' : item.id})" class="
                                         w-full sm:w-auto bg-blue-800 hover:bg-blue-700 inline-flex items-center justify-center
                                         text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300
                                         font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
@@ -174,7 +174,7 @@ export default {
                                 </Link>
 
                                 <!-- Cancel Button -->
-                                <button v-if="item.status_id === 2 || item.status_id === 3 || item.status_id === 6 || item.status_id === 7" @click="openCancelModal(item)" class="
+                                <button v-if="item.status_id == 2 || item.status_id == 3 || item.status_id == 6 || item.status_id == 7" @click="openCancelModal(item)" class="
                                         w-full sm:w-auto bg-blue-800 hover:bg-blue-700 inline-flex items-center justify-center
                                         text-white bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-orange-300
                                         font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
@@ -185,7 +185,7 @@ export default {
                                     <span class="text-sm font-semibold">Cancel</span>
                                 </button>
 
-                                <button v-if="item.status_id === 5 && item.rating === null" @click="openRating(item.id)" class="
+                                <button v-if="item.status_id == 5 && item.rating == null" @click="openRating(item.id)" class="
                                         w-full sm:w-auto bg-blue-800 hover:bg-blue-700 inline-flex items-center justify-center
                                         text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300
                                         font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">

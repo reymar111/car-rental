@@ -94,22 +94,22 @@ export default {
             return this.form.pickup_date != '' && this.form.payment_id != '';
         },
         getProvince() {
-            return this.provinces.find(route => route.id === this.form.route_id) || null;
+            return this.provinces.find(route => route.id == this.form.route_id) || null;
         },
         getCity() {
-            return this.cities.find(city => city.id === this.form.route_city_id) || null;
+            return this.cities.find(city => city.id == this.form.route_city_id) || null;
         },
         getCar() {
-            return this.available_cars.find(car => car.id === this.form.car_id) || null;
+            return this.available_cars.find(car => car.id == this.form.car_id) || null;
         },
         getCarType() {
-            return this.car_types.find(type => type.id === this.form.car_type_id) || null;
+            return this.car_types.find(type => type.id == this.form.car_type_id) || null;
         },
         getCarColor() {
-            return this.car_colors.find(type => type.id === this.form.car_type_id) || null;
+            return this.car_colors.find(type => type.id == this.form.car_type_id) || null;
         },
         getPayment() {
-            return this.payments.find(payment => payment.id === this.form.payment_id) || null;
+            return this.payments.find(payment => payment.id == this.form.payment_id) || null;
         }
     },
     methods: {
@@ -191,9 +191,9 @@ export default {
                 <ol class="flex w-full justify-between">
                     <li v-for="(s, index) in steps" :key="index"
                         class="flex items-center space-x-2.5 p-6"
-                        :class="step === s.id ? 'bg-blue-200 text-blue-900 dark:text-blue-900' : 'text-gray-500 dark:text-gray-400'">
+                        :class="step == s.id ? 'bg-blue-200 text-blue-900 dark:text-blue-900' : 'text-gray-500 dark:text-gray-400'">
                     <span class="flex items-center justify-center w-8 h-8 border rounded-full shrink-0"
-                            :class="step === s.id ? 'border-blue-600 dark:border-blue-500' : 'border-gray-500 dark:border-gray-400'">
+                            :class="step == s.id ? 'border-blue-600 dark:border-blue-500' : 'border-gray-500 dark:border-gray-400'">
                         {{ s.id }}
                     </span>
                     <span>
@@ -206,7 +206,7 @@ export default {
 
                 <!-- Full-Width Step Content -->
                 <div class="w-full flex-grow p-6">
-                <div v-if="step === 1" class="w-full p-6 bg-gray-100 rounded-lg">
+                <div v-if="step == 1" class="w-full p-6 bg-gray-100 rounded-lg">
                     <p class="mb-4">🚗 Choose your destination from the available places.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="relative z-0 w-full mb-5 group" v-if="is_admin">
@@ -237,7 +237,7 @@ export default {
                         </div>
                     </div>
 
-                <div v-if="step === 2" class="w-full p-6 bg-gray-100 rounded-lg">
+                <div v-if="step == 2" class="w-full p-6 bg-gray-100 rounded-lg">
                     <p class="mb-6">🚘 Select the car that best suits your trip.</p>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -293,7 +293,7 @@ export default {
                             <div class="flow-root">
                                     <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
                                         <li class="py-3 sm:py-4"    :style="{
-                                                backgroundColor: form.car_id === item.id ? '#37afde' : 'transparent',
+                                                backgroundColor: form.car_id == item.id ? '#37afde' : 'transparent',
                                                 borderRadius: '8px'
                                             }"  v-for="(item, index) in available_cars" :key="index">
                                             <div class="flex items-center">
@@ -328,7 +328,7 @@ export default {
                     </div>
                 </div>
 
-                <div v-if="step === 3" class="w-full p-6 bg-gray-100 rounded-lg">
+                <div v-if="step == 3" class="w-full p-6 bg-gray-100 rounded-lg">
                     <p class="mb-4">💳 Enter your payment details to proceed.</p>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -463,7 +463,7 @@ export default {
                     </div>
                 </div>
 
-                <div v-if="step === 4" class="w-full p-6 bg-gray-100 rounded-lg">
+                <div v-if="step == 4" class="w-full p-6 bg-gray-100 rounded-lg">
                     <p class="mb-3">✅ Review and confirm your rental details.</p>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
