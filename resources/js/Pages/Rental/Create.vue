@@ -1,6 +1,7 @@
 <script >
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3';
 
 export default {
     components: {
@@ -25,12 +26,6 @@ export default {
         payments: {
             type: Array,
             default: () => []
-        },
-        // Important: make sure the parent binds this with :
-        //   <YourComponent :is_admin="user.is_admin" />
-        is_admin: {
-            type: Boolean,
-            default: false
         },
         renters: {
             type: Array,
@@ -73,6 +68,10 @@ export default {
         };
     },
     computed: {
+        user() {
+            return usePage().props.auth.user // Get the authenticated user
+        },
+
         computeReturnDate() {
             if (this.form.number_days > 0 && this.form.pickup_date != '') {
                 const pickupDate = new Date(this.form.pickup_date);
@@ -236,7 +235,7 @@ export default {
                 <div v-if="step == 1" class="w-full p-6 bg-gray-100 rounded-lg">
                     <p class="mb-4">🚗 Choose your destination from the available places.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="relative z-0 w-full mb-5 group" v-if="is_admin">
+                        <div class="relative z-0 w-full mb-5 group" v-if="user.is_admin == 1">
                             <label for="floating_email" class="peer-focus:font-medium absolute text-sm text-black-500 dark:text-black-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Select Renter</label>
                             <select v-model="form.renter_id" id="models" class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Select Province" required >
                                 <option v-for="(item, index) in renters" :value="item.id" :key="index">{{ item.name }}</option>

@@ -125,12 +125,7 @@ class CarRentalController extends Controller
         $rental->payment_id = $request->payment_id;
         $rental->pickup_date = $request->pickup_date;
         $rental->status_id = 6;
-        if($request->is_admin && $request->renter_id != '')
-        {
-            $rental->user_id = $request->renter_id;
-        } else {
-            $rental->user_id = $request->user()->id;
-        }
+        $rental->user_id = $request->input('renter_id') ?? $request->user()->id;
         $rental->save();
 
         /*
