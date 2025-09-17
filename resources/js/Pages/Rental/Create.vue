@@ -10,28 +10,7 @@ export default {
         Link,
     },
 
-    props: {
-        provinces: {
-            type: Array,
-            default: () => []        // return a new array each time
-        },
-        car_types: {
-            type: Array,
-            default: () => []
-        },
-        car_colors: {
-            type: Array,
-            default: () => []
-        },
-        payments: {
-            type: Array,
-            default: () => []
-        },
-        renters: {
-            type: Array,
-            default: () => []
-        }
-    },
+    props: ['provinces', 'car_types', 'car_colors', 'payments', 'renters'],
 
     data() {
         return {
