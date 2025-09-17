@@ -32,7 +32,7 @@ class CarRentalController extends Controller
 
     public function create(Request $request)
     {
-        $is_admin = $request->user()->is_admin === 1 ? true : false;
+        $is_admin = $request->user()->is_admin == 1 ? true : false;
 
         $provinces = Routes::with(['cities' => function ($query) {
             $query->orderBy('name'); // Remove 'return' and just call the method
