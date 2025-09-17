@@ -45,6 +45,10 @@ export default {
             }),
         };
     },
+    beforeMount() {
+        // Initialize any data or perform actions before the component is mounted
+        this.provinces.find(route => route.id === this.rent.route_id) || null;
+    },
     computed: {
         user() {
             return usePage().props.auth.user // Get the authenticated user
@@ -62,8 +66,13 @@ export default {
         },
 
         getProvince() {
-            return this.provinces.find(route => route.id === this.rent.route_id) || null;
+            return this.provinces.find(route => route.id === this.rent.route_id)
+                || { is_within: false };
         },
+
+        // getProvince() {
+        //     return this.provinces.find(route => route.id === this.rent.route_id) || null;
+        // },
 
         getSumNumberDays() {
             if(this.rent.car != null) {
@@ -404,8 +413,13 @@ export default {
                                                 </th>
                                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                                                     <span v-if="rent">
-                                                    ₱{{ getProvince.is_within ? rent.car.model.type.rental_within : rent.car.model.type.rental_without }}/day
-                                                </span>
+                                                    ₱{{ getProvince?.is_within
+                                                            ? rent.car.model.type.rental_within
+                                                            : rent.car.model.type.rental_without }}/day
+                                                    </span>
+                                                    <!-- <span v-if="rent">
+                                                        ₱{{ getProvince.is_within ? rent.car.model.type.rental_within : rent.car.model.type.rental_without }}/day
+                                                    </span> -->
                                                 <span v-else>
                                                     N/A
                                                 </span>
