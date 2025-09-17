@@ -9,7 +9,34 @@ export default {
         Link,
     },
 
-    props: ['provinces', 'car_types', 'car_colors', 'payments', 'is_admin', 'renters'],
+    props: {
+        provinces: {
+            type: Array,
+            default: () => []        // return a new array each time
+        },
+        car_types: {
+            type: Array,
+            default: () => []
+        },
+        car_colors: {
+            type: Array,
+            default: () => []
+        },
+        payments: {
+            type: Array,
+            default: () => []
+        },
+        // Important: make sure the parent binds this with :
+        //   <YourComponent :is_admin="user.is_admin" />
+        is_admin: {
+            type: Boolean,
+            default: false
+        },
+        renters: {
+            type: Array,
+            default: () => []
+        }
+    },
 
     data() {
         return {
