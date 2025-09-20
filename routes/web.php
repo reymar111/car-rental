@@ -19,6 +19,7 @@ use App\Http\Controllers\RentalPaymentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RouteCitiesController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UsersController;
 
 Route::get('/', function () {
     return Inertia::render('Landing');
@@ -103,6 +104,14 @@ Route::middleware(['auth', 'verified'])->group(function() {
         Route::post('/store', [RouteCitiesController::class, 'store'])->name('route_city.store');
         Route::patch('/update/{route}', [RouteCitiesController::class, 'update'])->name('route_city.update');
         Route::delete('/delete/{route}', [RouteCitiesController::class, 'destroy'])->name('route_city.delete');
+    });
+
+    Route::prefix('account')->group(function() {
+        Route::get('/', [UsersController::class, 'index'])->name('account.index');
+        Route::post('/store', [UsersController::class, 'store'])->name('account.store');
+        Route::patch('/update/{user}', [UsersController::class, 'update'])->name('account.update');
+        Route::delete('/delete/{user}', [UsersController::class, 'destroy'])->name('account.delete');
+        Route::delete('/reset_password/{user}', [UsersController::class, 'reset_password'])->name('account.reset_password');
     });
 
     Route::prefix('rental')->group(function() {
